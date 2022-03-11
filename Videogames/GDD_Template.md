@@ -91,7 +91,7 @@ _(Note : These sections can safely be skipped if they&#39;re not relevant, or yo
 1. Forest
     1. Mood
         1. Dark, calm, foreboding
-  2. Objects
+    2. Objects
         1. _Ambient_
             1. Fireflies
             2. Beams of moonlight
