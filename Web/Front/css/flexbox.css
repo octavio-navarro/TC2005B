@@ -1,0 +1,39 @@
+* {
+    border: 1px solid black;
+}
+
+div {
+    padding: 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+}
+
+#container1 {
+    justify-content: space-around;
+}
+
+.box {
+    margin: 5px;
+}
+
+#box4 {
+    flex: 1;
+    order: 3
+}
+
+#box5 {
+    flex: 3;
+    order: 1
+}
+
+#box5 p{
+    color: blue;
+}
+
+#box6 {
+    flex: 4;
+}
