@@ -15,9 +15,4 @@ public class ApplyAngleValue : MonoBehaviour
         float angle = PlayerPrefs.GetFloat("Angle", 5.0f);
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        SceneManager.LoadScene("Title");
-    }
 }
