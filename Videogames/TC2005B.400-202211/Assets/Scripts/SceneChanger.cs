@@ -13,4 +13,9 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        SceneManager.LoadScene("Title");
+    }
 }
