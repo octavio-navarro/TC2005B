@@ -1,0 +1,14 @@
+{
+    "name": "promises",
+    "version": "1.0.0",
+    "description": "",
+    "main": "promises_1.js",
+    "type": "module",
+    "scripts": {
+      "start": "node modules_1.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+  }
+  
