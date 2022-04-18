@@ -6,9 +6,9 @@ import mysql from 'mysql'
 // create the connection to database
 const connection = mysql.createConnection(
     {
-        host:'172.31.160.1', 
+        host:'localhost', 
         user:'hagen', 
-        password:'0412M4sqls3rv3r.', 
+        password:'M4sqls3rv3r.', 
         database: 'api_game_db'
     })
 
