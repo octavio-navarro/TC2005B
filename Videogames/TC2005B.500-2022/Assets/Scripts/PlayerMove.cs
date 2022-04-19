@@ -45,8 +45,12 @@ public class PlayerMove : MonoBehaviour
         rb2d.velocity = move;
     }
 
+    // Detect when beginning a contact with another object
     void OnCollisionEnter2D(Collision2D col)
     {
-        grounded = true;
+        // Reset the jump only with certain objects
+        if (col.gameObject.tag == "Ground") {
+            grounded = true;
+        }
     }
 }
