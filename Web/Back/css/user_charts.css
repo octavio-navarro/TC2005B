@@ -1,0 +1,23 @@
+* {
+    margin: 1%;
+}
+
+h1, h2, p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+}
+
+h1{
+    margin: 0;
+}
+
+div, canvas{
+    padding: 1%;
+    border: 1px solid black;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
