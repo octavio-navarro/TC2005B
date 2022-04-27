@@ -5,10 +5,13 @@ Gilberto Echeverria
 */
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerPoints : MonoBehaviour
 {
-    [SerializeField] int points;
+    [SerializeField] Text scoreText;
+
+    int points;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class PlayerPoints : MonoBehaviour
     {
         if (col.tag == "Coin") {
             points++;
+            scoreText.text = "Score: " + points;
             Destroy(col.gameObject);
         }  
     }
