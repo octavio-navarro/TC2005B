@@ -61,29 +61,38 @@ for(const w of words)
     })
 }
 
-for(let i = 0; i<20; i++)
+connection.query('select id_users from users', (error, user_rows, fields)=>
 {
-    const user_id = Math.floor(Math.random() * 20)+1
-    const level_id = Math.floor(Math.random() * 10)+1
-    const attempt_date = new Date()
-    const completed = Math.floor(Math.random() * 2)
+    if(error) console.log(error)
+    const id_users = user_rows.map(r=>r['id_users'])
 
-    const user_level_data = {
-        id_user: user_id,
-        id_level: level_id,
-        attempt_date: attempt_date,
-        completed:  completed
-    }
-
-    connection.query('insert into user_level set ?', user_level_data, (error, rows, fields)=> 
+    connection.query('select id_levels from levels', (error, level_rows, l_fields)=>
     {
         if(error) console.log(error)
-        console.log(`Added attempt successfully!`)
-    })
-}
+        const id_levels = level_rows.map(r=>r['id_levels'])
 
-connection.end(error=>
-    {
-        if(error) console.log(error)
-        console.log("Connection closed successfully!")
+        for(let i = 0; i<20; i++)
+        {
+            const attempt_date = new Date()
+            const completed = Math.floor(Math.random() * 2)
+
+            const user_level_data = {
+                id_user: id_users[Math.floor(Math.random() * id_users.length)],
+                id_level: id_levels[Math.floor(Math.random() * id_levels.length)],
+                attempt_date: attempt_date,
+                completed:  completed
+            }
+
+            connection.query('insert into user_level set ?', user_level_data, (error, rows, fields)=> 
+            {
+                if(error) console.log(error)
+                console.log(`Added attempt successfully!`)
+            })
+        }
+        connection.end(error=>
+            {
+                if(error) console.log(error)
+                console.log("Connection closed successfully!")
+            })
     })
+})
