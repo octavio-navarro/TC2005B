@@ -4,8 +4,6 @@ Control of the player character
 Gilberto Echeverria
 */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
