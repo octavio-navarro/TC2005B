@@ -14,7 +14,7 @@ app.use('/css', express.static('./css'))
 
 function connectToDB()
 {
-    return mysql.createConnection({host:'172.28.48.1', user:'hagen', password:'0412M4sqls3rv3r.', database:'api_game_db'})
+    return mysql.createConnection({host:'localhost', user:'hagen', password:'M4sqls3rv3r.', database:'api_game_db'})
 }
 
 app.get('/', (request,response)=>{
@@ -90,6 +90,35 @@ app.put('/api/users', (request, response)=>{
     {
         response.json(error)
         console.log(error)
+    }
+})
+
+app.put('/api/test/users', (request, response)=>{
+    try{
+        let connection = connectToDB()
+        connection.connect()
+
+        const data = Object.entries(request.body).filter(([k,v]) => k!='userID')
+        const queryData = Object.fromEntries(data)
+        
+        const query = connection.query('update users set ? where id_users= ?', [queryData, request.body['userID']] ,(error, results, fields)=>{
+            if(error) 
+                console.log(error)
+            else
+                response.status(200).json({'message': "Data updated correctly."})
+        })
+
+        connection.end(error=> {
+                if(error) console.log(error)
+                console.log("Connection closed successfully!")
+        })
+    }
+    catch(error)
+    {
+        connection.end()
+        response.status(500)
+        response.json(error)
+        console.log("ASDADSASD", error)
     }
 })
 
