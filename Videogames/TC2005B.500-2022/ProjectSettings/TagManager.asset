@@ -9,6 +9,7 @@ TagManager:
   - Edge
   - WeakPoint
   - Enemy
+  - Goal
   layers:
   - Default
   - TransparentFX
