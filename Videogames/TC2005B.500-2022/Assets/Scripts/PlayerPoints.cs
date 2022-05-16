@@ -23,6 +23,8 @@ public class PlayerPoints : MonoBehaviour
     {
         if (col.tag == "Coin") {
             points++;
+            // Store the points in a "global" variable
+            PlayerPrefs.SetInt("points", points);
             scoreText.text = "Score: " + points;
             Destroy(col.gameObject);
         }  
