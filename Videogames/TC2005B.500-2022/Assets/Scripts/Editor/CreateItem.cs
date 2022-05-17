@@ -8,24 +8,29 @@ using UnityEngine;
 
 public class CreateItem : MonoBehaviour
 {
+    // The camera that will be used during edition
+    [SerializeField] Camera editCamera;
+
+    // Positions in different coordinate systems
     Vector3 mousePos;
     Vector3 worldPos;
 
+    // Object to be moved
     GameObject instance;
     bool moving = false;
 
-    [SerializeField] Camera editCamera;
-
+    // Callback for a button to create a new object on the scene
     public void MakeObject(GameObject item)
     {
-        instance = Instantiate(item, Vector3.zero, Quaternion.identity);
-        moving = true;
+        Instantiate(item, Vector3.zero, Quaternion.identity);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Clicking on an object will select it and activate to drag
         if (Input.GetMouseButtonDown(0)) {
+            // Detect mouse position and convert to 3D world coordinates
             mousePos = Input.mousePosition;
             mousePos.z = editCamera.nearClipPlane;
             worldPos = editCamera.ScreenToWorldPoint(mousePos);
@@ -43,6 +48,7 @@ public class CreateItem : MonoBehaviour
             }
         }
 
+        // While the button is held down
         if (Input.GetMouseButton(0)) {
             mousePos = Input.mousePosition;
             mousePos.z = editCamera.nearClipPlane;
@@ -55,12 +61,11 @@ public class CreateItem : MonoBehaviour
             instance.transform.position = worldPos;
         }
 
+        // Release the object to stop moving it
         if (Input.GetMouseButtonUp(0)) {
-            // Release the object to stop moving it
             instance = null;
             moving = false;
         }
     }
-
 
 }
