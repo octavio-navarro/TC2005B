@@ -13,8 +13,11 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1")) {
-            Instantiate(bulletPrefab, spawn.position, Quaternion.identity);
+        // Only allow shooting when in play mode
+        if (GameMode.currentMode == GameMode.Mode.PLAY) {
+            if (Input.GetButtonDown("Fire1")) {
+                Instantiate(bulletPrefab, spawn.position, Quaternion.identity);
+            }
         }
     }
 
