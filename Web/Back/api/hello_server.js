@@ -26,6 +26,17 @@ app.get('/', (req, res)=>
     })
 })
 
+app.get('/api/hello', (req, res)=>
+{
+    // console.log(req.query)
+    // if(req.query.name !== undefined && req.query.surname !== undefined)
+    // if('name' in req.query && 'surname' in req.query)
+    if(req.query.hasOwnProperty('name') && req.query.hasOwnProperty('surname'))
+        res.send(`Hello ${req.query.name} ${req.query.surname}`)
+    else
+        res.send('Hello!')
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
