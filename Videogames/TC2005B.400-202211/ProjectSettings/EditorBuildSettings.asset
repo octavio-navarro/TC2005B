@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scripting101.unity
     guid: d408bf57401ac8df8b96b7d0695202f9
+  - enabled: 1
+    path: Assets/Scenes/UI_Elements.unity
+    guid: 4b750751642c8184ab12c9d12809d035
   m_configObjects: {}

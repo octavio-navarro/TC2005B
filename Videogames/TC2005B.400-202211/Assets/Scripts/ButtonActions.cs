@@ -23,4 +23,9 @@ public class ButtonActions : MonoBehaviour
     {
         api.QueryUsers();
     }
+
+    public void AddUser()
+    {
+        api.InsertNewUser();
+    }
 }

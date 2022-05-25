@@ -47,10 +47,10 @@ public class APITest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) {
             QueryUsers();
         }
-        */
         if (Input.GetKeyDown(KeyCode.N)) {
             InsertNewUser();
         }
+        */
     }
 
     // These are the functions that must be called to interact with the API
