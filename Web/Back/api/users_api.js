@@ -1,7 +1,7 @@
 "use strict"
 
 import express from 'express'
-import mysql from 'mysql'
+import mysql from 'mysql2/promise'
 import fs from 'fs'
 
 const app = express()
@@ -12,9 +12,14 @@ app.use(express.json())
 app.use('/js', express.static('./js'))
 app.use('/css', express.static('./css'))
 
-function connectToDB()
+async function connectToDB()
 {
-    return mysql.createConnection({host:'localhost', user:'hagen', password:'M4sqls3rv3r.', database:'api_game_db'})
+    return await mysql.createConnection({
+        host:'localhost',
+        user:'hagen',
+        password:'M4sqls3rv3r.',
+        database:'api_game_db'
+    })
 }
 
 app.get('/', (request,response)=>{
@@ -25,122 +30,140 @@ app.get('/', (request,response)=>{
     })
 })
 
-app.get('/api/users', (request, response)=>{
-    let connection = connectToDB()
+app.get('/api/users', async (request, response)=>{
+    let connection = null
 
-    try{
-
-        connection.connect()
-
-        connection.query('select * from users', (error, results, fields)=>{
-            if(error) console.log(error)
-            console.log(JSON.stringify(results))
-            response.json(results)
-        })
-
-        connection.end()
-    }
-    catch(error)
-    {
-        response.status(500)
-        response.json(error)
-        console.log(error)
-    }
-})
-
-app.post('/api/users', (request, response)=>{
-
-    try{
-        console.log(request.headers)
-
-        let connection = connectToDB()
-        connection.connect()
-
-        const query = connection.query('insert into users set ?', request.body ,(error, results, fields)=>{
-            if(error) 
-                console.log(error)
-            else
-                response.json({'message': "Data inserted correctly."})
-        })
-
-        connection.end()
-    }
-    catch(error)
-    {
-        response.json(error)
-        console.log(error)
-    }
-})
-
-app.put('/api/users', (request, response)=>{
-    try{
-        let connection = connectToDB()
-        connection.connect()
-
-        const query = connection.query('update users set name = ?, surname = ? where id_users= ?', [request.body['name'], request.body['surname'], request.body['userID']] ,(error, results, fields)=>{
-            if(error) 
-                console.log(error)
-            else
-                response.json({'message': "Data updated correctly."})
-        })
-
-        connection.end()
-    }
-    catch(error)
-    {
-        response.json(error)
-        console.log(error)
-    }
-})
-
-app.put('/api/test/users', (request, response)=>{
-    try{
-        let connection = connectToDB()
-        connection.connect()
-
-        const data = Object.entries(request.body).filter(([k,v]) => k!='userID')
-        const queryData = Object.fromEntries(data)
-        
-        const query = connection.query('update users set ? where id_users= ?', [queryData, request.body['userID']] ,(error, results, fields)=>{
-            if(error) 
-                console.log(error)
-            else
-                response.status(200).json({'message': "Data updated correctly."})
-        })
-
-        connection.end(error=> {
-                if(error) console.log(error)
-                console.log("Connection closed successfully!")
-        })
-    }
-    catch(error)
-    {
-        connection.end()
-        response.status(500)
-        response.json(error)
-        console.log("ASDADSASD", error)
-    }
-})
-
-app.delete('/api/users', (request, response)=>{
     try
     {
-        let connection = connectToDB()
-        connection.connect()
+        connection = await connectToDB()
+        const [results, fields] = await connection.execute('select * from users')
 
-        const query = connection.query('delete from users where id_users= ?', [request.body['userID']] ,(error, results, fields)=>{
-            if(error) 
-                console.log(error)
-            else
-                response.json({'message': "Data deleted correctly."})
-        })
-
-        connection.end()
+        response.json(results)
     }
     catch(error)
     {
+        response.status(500)
         response.json(error)
         console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+app.get('/api/users/:id', async (request, response)=>
+{
+    let connection = null
+
+    try
+    {
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('select * from users where id_users= ?', [request.params.id])
+        
+        response.json(results)
+    }
+    catch(error)
+    {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+app.post('/api/users', async (request, response)=>{
+
+    let connection = null
+
+    try
+    {    
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('insert into users set ?', request.body)
+        
+        response.json({'message': "Data inserted correctly."})
+    }
+    catch(error)
+    {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+app.put('/api/users', async (request, response)=>{
+
+    let connection = null
+
+    try{
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('update users set name = ?, surname = ? where id_users= ?', [request.body['name'], request.body['surname'], request.body['userID']])
+        
+        response.json({'message': "Data updated correctly."})
+    }
+    catch(error)
+    {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+app.delete('/api/users/:id', async (request, response)=>{
+
+    let connection = null
+
+    try
+    {
+        connection = await connectToDB()
+
+        const [results, fields] = await connection.query('delete from users where id_users= ?', [request.params.id])
+        
+        response.json({'message': "Data deleted correctly."})
+    }
+    catch(error)
+    {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
     }
 })
 

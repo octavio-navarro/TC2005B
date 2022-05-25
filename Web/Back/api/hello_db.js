@@ -23,13 +23,15 @@ connection.connect(error=>
 connection.query('select * from users', (error, rows, fields)=> 
     {
         if(error) console.log(error)
+        console.log(Object.keys(rows[0]))
+
         for (const r of rows)
         {
-            console.log(Object.keys(r))
             console.log(Object.values(r))
         }
         console.log(rows)
-        // console.log(fields)
+        console.log(rows[0]['name'])
+        console.log(fields)
     })
 
 connection.end(error=>
