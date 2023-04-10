@@ -29,11 +29,7 @@ function insertRow()
 
 function main()
 {
-    // document.addEventListener('mousemove', function (event){
-    //     console.log(event.clientX, event.clientY);
-
-    //     let p_div = document.getElementById('mousePosition');
-
-    //     p_div.innerHTML = 'Posición del mouse: ' + event.clientX + ' , ' + event.clientY
-    // })
+    console.log('ya cargue')
 }
+
+document.addEventListener('load', main)

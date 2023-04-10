@@ -1,3 +1,4 @@
+
 "use strict"
 
 import express from 'express'
@@ -16,7 +17,7 @@ app.use('/css', express.static('./css'))
 
 function connectToDB()
 {
-    return mysql.createConnection({host:'172.28.48.1', user:'hagen', password:'0412M4sqls3rv3r.', database:'api_game_db'})   
+    return mysql.createConnection({host:'localhost', user:'hagen', password:'M4sqls3rv3r.', database:'api_game_db'})   
 }
 
 app.get('/', (request, response)=>{
@@ -35,10 +36,15 @@ app.get('/api/users', (request, response)=>{
         connection.connect()
 
         connection.query('select * from users', (error, results, fields)=>{
-            if(error) console.log(error)
-            console.log("Sending data correctly.")
-            response.status(200)
-            response.json(results)
+            if(error) {
+                console.log(error)
+                response.status(500)
+            }
+            else{
+                console.log("Sending data correctly.")
+                response.status(200)
+                response.json(results)
+            }
         })
 
         connection.end()

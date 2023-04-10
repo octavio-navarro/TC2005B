@@ -21,3 +21,14 @@ div, canvas{
     justify-content: center;
     flex-direction: column;
 }
+
+.chartContainer{
+    border: 0;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+.chartContainer canvas{
+    flex-grow: 1;
+}

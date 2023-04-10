@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" defer src="../js/user_charts.js"></script>
-    <link href="../css/user_charts.css" type="text/css" rel="stylesheet">
+    <script type="module" defer src="/js/user_charts.js"></script> 
+    <link href="/css/user_charts.css" type="text/css" rel="stylesheet">
     <title>User Charts</title>
 </head>
 <body>
@@ -35,7 +35,11 @@
 
         <p>Using the arrays that only have the data that we need, we can create a new configuration object that is going to be plotted in the chart. For this example, we are ploting the completion rate of each level in the 'levels' table. Specifically, we need arrays that hold the names, and completion rate for each level. An additional array that contains a random color for each chart element is also created.</p>
 
-        <canvas id="apiChart" width="600" height="600" style="max-width: 600px; max-height: 600px;"></canvas>
+        <div class="chartContainer">
+            <canvas id="apiChart1" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
+            <canvas id="apiChart2" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
+            <canvas id="apiChart3" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
+        </div>
     </div>
 </body>
 </html>
