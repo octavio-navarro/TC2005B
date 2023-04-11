@@ -1,0 +1,51 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+table{
+    border-spacing: 0px;
+}
+
+.container{
+    border: 1px black solid;
+    margin: 5px;
+    padding: 5px;
+}
+
+/* Set the footer to be positioned at the bottom */
+footer, .footer-placeholder {
+   height: 10vh;
+   width: 100%;
+}
+
+footer {
+    position: fixed;
+    background-color: white;
+    border: 1px solid black;
+    margin: 0 5px 0 5px;
+    width: calc(100% - 10px);
+    height: 8vh;
+    bottom: 0;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 11mm 17mm 17mm 17mm;
+    }
+
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
+
+    thead {display: table-header-group;} 
+    tfoot {display: table-footer-group;}  
+}
