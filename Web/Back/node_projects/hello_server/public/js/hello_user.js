@@ -35,3 +35,21 @@ if(response_parameters.ok)
 else
     console.log(`HTTP Error: ${response_parameters.status}`)
 
+const response_db = await fetch('http://localhost:3000/api/users', {
+    method:'GET',
+    headers: 
+    {
+        'accept':'application/json'
+    }
+})
+
+if(response_db.ok)
+{
+    const results = await response_db.json()
+
+    console.log(results)
+}
+else
+{
+    console.log("Error")
+}

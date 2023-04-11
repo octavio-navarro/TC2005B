@@ -65,6 +65,7 @@ try
 
         let results = await levels_response.json()
 
+        console.log(results)
         console.log('Data converted correctly. Plotting chart.')
         
         const values = Object.values(results)
@@ -74,10 +75,42 @@ try
         const level_colors = values.map(e => random_color(0.8))
         const level_completion = values.map(e => e['completion_rate'])
 
-        const ctx_levels = document.getElementById('apiChart').getContext('2d');
-        const levelChart = new Chart(ctx_levels, 
+        const ctx_levels1 = document.getElementById('apiChart1').getContext('2d');
+        const levelChart1 = new Chart(ctx_levels1, 
             {
                 type: 'pie',
+                data: {
+                    labels: level_names,
+                    datasets: [
+                        {
+                            label: 'Completion Rate',
+                            backgroundColor: level_colors,
+                            data: level_completion
+                        }
+                    ]
+                }
+            })
+
+        const ctx_levels2 = document.getElementById('apiChart2').getContext('2d');
+        const levelChart2 = new Chart(ctx_levels2, 
+            {
+                type: 'line',
+                data: {
+                    labels: level_names,
+                    datasets: [
+                        {
+                            label: 'Completion Rate',
+                            backgroundColor: level_colors,
+                            data: level_completion
+                        }
+                    ]
+                }
+            })
+        
+        const ctx_levels3 = document.getElementById('apiChart3').getContext('2d');
+        const levelChart3 = new Chart(ctx_levels3, 
+            {
+                type: 'bar',
                 data: {
                     labels: level_names,
                     datasets: [

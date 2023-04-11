@@ -38,6 +38,7 @@ app.get('/api/users', async (request, response)=>{
         connection = await connectToDB()
         const [results, fields] = await connection.execute('select * from users')
 
+        console.log("QWERTY")
         response.json(results)
     }
     catch(error)
@@ -66,6 +67,7 @@ app.get('/api/users/:id', async (request, response)=>
 
         const [results, fields] = await connection.query('select * from users where id_users= ?', [request.params.id])
         
+        console.log("ADASDA")
         response.json(results)
     }
     catch(error)
