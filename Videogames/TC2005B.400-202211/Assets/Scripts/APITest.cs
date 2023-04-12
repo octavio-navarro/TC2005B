@@ -9,6 +9,7 @@ Gilberto Echeverria
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 
@@ -36,6 +37,7 @@ public class APITest : MonoBehaviour
 {
     [SerializeField] string url;
     [SerializeField] string getUsersEP;
+    [SerializeField] Text errorText;
 
     // This is where the information from the api will be extracted
     public UserList allUsers;
@@ -65,6 +67,18 @@ public class APITest : MonoBehaviour
         StartCoroutine(AddUser());
     }
 
+    // Test function to get a response and act accordingly
+    // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
+    public void GetResults()
+    {
+        UserList localUsers;
+        // Call the IEnumerator and pass a lambda function to be called
+        StartCoroutine(GetUsersString((reply) => {
+                localUsers = JsonUtility.FromJson<UserList>(reply);
+                DisplayUsers();
+        }));
+    }
+
     // These functions make the connection to the API
 
     IEnumerator GetUsers()
@@ -80,8 +94,10 @@ public class APITest : MonoBehaviour
                 string jsonString = "{\"users\":" + www.downloadHandler.text + "}";
                 allUsers = JsonUtility.FromJson<UserList>(jsonString);
                 DisplayUsers();
+                if (errorText != null) errorText.text = "";
             } else {
                 Debug.Log("Error: " + www.error);
+                if (errorText != null) errorText.text = "Error: " + www.error;
             }
         }
     }
@@ -112,12 +128,15 @@ public class APITest : MonoBehaviour
             // Set the method later, and indicate the encoding is JSON
             www.method = "POST";
             www.SetRequestHeader("Content-Type", "application/json");
+            //www.SetRequestHeader("Authorization", "Bearer saoifnapoeinra");
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success) {
                 Debug.Log("Response: " + www.downloadHandler.text);
+                if (errorText != null) errorText.text = "";
             } else {
                 Debug.Log("Error: " + www.error);
+                if (errorText != null) errorText.text = "Error: " + www.error;
             }
         }
     }
@@ -127,4 +146,27 @@ public class APITest : MonoBehaviour
         TMPro_Test texter = GetComponent<TMPro_Test>();
         texter.LoadNames(allUsers);
     }
+
+    // Sending the data back to the caller of the Coroutine, using a callback
+    // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
+    IEnumerator GetUsersString(System.Action<string> callback)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(url + getUsersEP))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success) {
+                //Debug.Log("Response: " + www.downloadHandler.text);
+                // Compose the response to look like the object we want to extract
+                // https://answers.unity.com/questions/1503047/json-must-represent-an-object-type.html
+                string jsonString = "{\"users\":" + www.downloadHandler.text + "}";
+                callback(jsonString);
+                if (errorText != null) errorText.text = "";
+            } else {
+                Debug.Log("Error: " + www.error);
+                if (errorText != null) errorText.text = "Error: " + www.error;
+            }
+        }
+    }
+
 }
