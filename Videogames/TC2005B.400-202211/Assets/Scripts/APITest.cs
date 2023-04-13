@@ -4,6 +4,7 @@ Able to use the Get method to read data and "Post" to send data
 NOTE: Using Put instead of Post. See the links around line 86
 
 Gilberto Echeverria
+2023-04-12
 */
 
 using System.Collections;
@@ -79,7 +80,9 @@ public class APITest : MonoBehaviour
         }));
     }
 
-    // These functions make the connection to the API
+    ////////////////////////////////////////////////////
+    // These functions make the connection to the API //
+    ////////////////////////////////////////////////////
 
     IEnumerator GetUsers()
     {
@@ -141,12 +144,6 @@ public class APITest : MonoBehaviour
         }
     }
 
-    void DisplayUsers()
-    {
-        TMPro_Test texter = GetComponent<TMPro_Test>();
-        texter.LoadNames(allUsers);
-    }
-
     // Sending the data back to the caller of the Coroutine, using a callback
     // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
     IEnumerator GetUsersString(System.Action<string> callback)
@@ -167,6 +164,14 @@ public class APITest : MonoBehaviour
                 if (errorText != null) errorText.text = "Error: " + www.error;
             }
         }
+    }
+
+    // Show the results of the Query in the Unity UI elements,
+    // via another script that fills a scrollview
+    void DisplayUsers()
+    {
+        TMPro_Test texter = GetComponent<TMPro_Test>();
+        texter.LoadNames(allUsers);
     }
 
 }
