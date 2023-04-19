@@ -341,8 +341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b3e3939658cd2edb55f40266b91181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  textPrefab: {fileID: 6223435412183791049, guid: cf7c05a390d5a258588b5aad649ef090, type: 3}
+  type: 0
+  textPrefab: {fileID: 8059259429740111422, guid: 5ec3c03037bd53c5887de30f4188683b, type: 3}
+  buttonPrefab: {fileID: 6223435412183791049, guid: cf7c05a390d5a258588b5aad649ef090, type: 3}
   contentTransform: {fileID: 2027162851}
   greetField: {fileID: 1623818595}
 --- !u!224 &360322460 stripped

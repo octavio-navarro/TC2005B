@@ -26,15 +26,21 @@ public class TMPro_Test : MonoBehaviour
 {
     [SerializeField] PrefabType type;
     [SerializeField] GameObject textPrefab;
+    [SerializeField] GameObject buttonPrefab;
     [SerializeField] Transform contentTransform;
     [SerializeField] TextMeshProUGUI greetField;
 
     public void LoadNames(UserList allUsers)
     {
         ClearContents();
+        GameObject uiItem;
         for (int i=0; i<allUsers.users.Count; i++) {
-            // Create new text objects
-            GameObject uiItem = Instantiate(textPrefab);
+            // Create new GUI objects
+            if (type == PrefabType.Button) {
+                uiItem = Instantiate(buttonPrefab);
+            } else {
+                uiItem = Instantiate(textPrefab);
+            }
             // Add them to the ScollView content
             uiItem.transform.SetParent(contentTransform);
 
