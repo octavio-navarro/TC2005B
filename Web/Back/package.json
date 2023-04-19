@@ -5,6 +5,7 @@
   "main": "hello_world.js",
   "type": "module",
   "scripts": {
+    "hello": "node api/hello_api_db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
