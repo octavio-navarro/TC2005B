@@ -29,9 +29,11 @@ public class PlayerPoints : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Destroy(col.gameObject);
-        points += 5;
-        pointsText.text = "Score: " + points;
+        if (col.gameObject.tag == "Coin") {
+            Destroy(col.gameObject);
+            points += 5;
+            pointsText.text = "Score: " + points;
+        }
     }
 
     // This method must be of type IEnumerator to be able to wait
