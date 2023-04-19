@@ -56,6 +56,14 @@ public class APITest : MonoBehaviour
         */
     }
 
+    // Show the results of the Query in the Unity UI elements,
+    // via another script that fills a scrollview
+    void DisplayUsers()
+    {
+        TMPro_Test texter = GetComponent<TMPro_Test>();
+        texter.LoadNames(allUsers);
+    }
+
     // These are the functions that must be called to interact with the API
 
     public void QueryUsers()
@@ -66,18 +74,6 @@ public class APITest : MonoBehaviour
     public void InsertNewUser()
     {
         StartCoroutine(AddUser());
-    }
-
-    // Test function to get a response and act accordingly
-    // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
-    public void GetResults()
-    {
-        UserList localUsers;
-        // Call the IEnumerator and pass a lambda function to be called
-        StartCoroutine(GetUsersString((reply) => {
-                localUsers = JsonUtility.FromJson<UserList>(reply);
-                DisplayUsers();
-        }));
     }
 
     ////////////////////////////////////////////////////
@@ -131,7 +127,6 @@ public class APITest : MonoBehaviour
             // Set the method later, and indicate the encoding is JSON
             www.method = "POST";
             www.SetRequestHeader("Content-Type", "application/json");
-            //www.SetRequestHeader("Authorization", "Bearer saoifnapoeinra");
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.Success) {
@@ -142,6 +137,23 @@ public class APITest : MonoBehaviour
                 if (errorText != null) errorText.text = "Error: " + www.error;
             }
         }
+    }
+
+
+    ////////////////////////////////////////////////////
+    // These functions allow making a callback after the API request finishes
+    ////////////////////////////////////////////////////
+
+    // Test function to get a response and act accordingly
+    // https://answers.unity.com/questions/24640/how-do-i-return-a-value-from-a-coroutine.html
+    public void GetResults()
+    {
+        UserList localUsers;
+        // Call the IEnumerator and pass a lambda function to be called
+        StartCoroutine(GetUsersString((reply) => {
+                localUsers = JsonUtility.FromJson<UserList>(reply);
+                DisplayUsers();
+        }));
     }
 
     // Sending the data back to the caller of the Coroutine, using a callback
@@ -165,13 +177,4 @@ public class APITest : MonoBehaviour
             }
         }
     }
-
-    // Show the results of the Query in the Unity UI elements,
-    // via another script that fills a scrollview
-    void DisplayUsers()
-    {
-        TMPro_Test texter = GetComponent<TMPro_Test>();
-        texter.LoadNames(allUsers);
-    }
-
 }
