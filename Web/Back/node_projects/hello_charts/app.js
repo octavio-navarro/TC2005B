@@ -12,7 +12,6 @@ app.use(express.json())
 
 // Since we are using the chart module installed from node js, we need to expose it so that the web page can use it.
 app.use(express.static('./public'))
-app.use('/scripts/charts', express.static('./node_modules/chart.js/'))
 
 function connectToDB()
 {
