@@ -11,9 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chart.js": "^3.8.0",
-    "chartjs-adapter-date-fns": "^2.0.0",
-    "date-fns": "^2.28.0",
     "express": "^4.17.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",

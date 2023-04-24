@@ -3,7 +3,6 @@
 
 import fetch from 'node-fetch'
 
-
 async function fetchData(url)
 {
     try
