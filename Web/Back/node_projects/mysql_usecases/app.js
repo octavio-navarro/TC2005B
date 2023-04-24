@@ -63,7 +63,7 @@ app.get('/api/users/:id', async (request, response)=>
     {
         connection = await connectToDB()
 
-        const [results, fields] = await connection.query('select * from users where id_users= ?', [request.params.id])
+        const [results_user, _] = await connection.query('select * from users where id_users= ?', [request.params.id])
         
         console.log(`${results.length} rows returned`)
         response.json(results)
@@ -95,7 +95,7 @@ app.post('/api/users', async (request, response)=>{
         const [results, fields] = await connection.query('insert into users set ?', request.body)
         
         console.log(`${results.affectedRows} row inserted`)
-        response.json({'message': "Data inserted correctly."})
+        response.json({'message': "Data inserted correctly.", "id": results.insertId})
     }
     catch(error)
     {

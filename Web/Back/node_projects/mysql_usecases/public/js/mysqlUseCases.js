@@ -75,7 +75,7 @@ function main()
             let results = await response.json()
         
             console.log(results)
-            postResults.innerHTML = results.message
+            postResults.innerHTML = results.message + ' id: ' + results.id
         }
         else{
             postResults.innerHTML = response.status
