@@ -8,9 +8,7 @@ const app = express()
 const port = 5000
 
 app.use(express.json())
-
-app.use('/js', express.static('./js'))
-app.use('/css', express.static('./css'))
+app.use(express.static('./public'))
 
 async function connectToDB()
 {
@@ -23,7 +21,7 @@ async function connectToDB()
 }
 
 app.get('/', (request,response)=>{
-    fs.readFile('./html/mysqlUseCases.html', 'utf8', (err, html)=>{
+    fs.readFile('./public/html/mysqlUseCases.html', 'utf8', (err, html)=>{
         if(err) response.status(500).send('There was an error: ' + err)
         console.log('Loading page...')
         response.send(html)
@@ -38,7 +36,7 @@ app.get('/api/users', async (request, response)=>{
         connection = await connectToDB()
         const [results, fields] = await connection.execute('select * from users')
 
-        console.log("QWERTY")
+        console.log(`${results.length} rows returned`)
         response.json(results)
     }
     catch(error)
@@ -67,7 +65,7 @@ app.get('/api/users/:id', async (request, response)=>
 
         const [results, fields] = await connection.query('select * from users where id_users= ?', [request.params.id])
         
-        console.log("ADASDA")
+        console.log(`${results.length} rows returned`)
         response.json(results)
     }
     catch(error)
@@ -96,6 +94,7 @@ app.post('/api/users', async (request, response)=>{
 
         const [results, fields] = await connection.query('insert into users set ?', request.body)
         
+        console.log(`${results.affectedRows} row inserted`)
         response.json({'message': "Data inserted correctly."})
     }
     catch(error)
@@ -123,7 +122,8 @@ app.put('/api/users', async (request, response)=>{
 
         const [results, fields] = await connection.query('update users set name = ?, surname = ? where id_users= ?', [request.body['name'], request.body['surname'], request.body['userID']])
         
-        response.json({'message': "Data updated correctly."})
+        console.log(`${results.affectedRows} rows updated`)
+        response.json({'message': `Data updated correctly: ${results.affectedRows} rows updated.`})
     }
     catch(error)
     {
@@ -151,7 +151,8 @@ app.delete('/api/users/:id', async (request, response)=>{
 
         const [results, fields] = await connection.query('delete from users where id_users= ?', [request.params.id])
         
-        response.json({'message': "Data deleted correctly."})
+        console.log(`${results.affectedRows} row deleted`)
+        response.json({'message': `Data deleted correctly: ${results.affectedRows} rows deleted.`})
     }
     catch(error)
     {

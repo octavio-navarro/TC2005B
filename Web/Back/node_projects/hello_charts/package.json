@@ -1,23 +1,20 @@
 {
-  "name": "server",
+  "name": "hello_charts",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
   "type": "module",
+  "main": "app.js",
   "scripts": {
-    "hello": "node api/hello_api_db.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chart.js": "^3.8.0",
-    "chartjs-adapter-date-fns": "^2.0.0",
-    "date-fns": "^2.28.0",
     "express": "^4.17.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
-    "node-fetch": "^3.2.3",
     "nodemon": "^2.0.22"
   }
 }

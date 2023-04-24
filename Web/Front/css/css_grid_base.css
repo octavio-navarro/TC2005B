@@ -1,23 +1,27 @@
 body {
     margin: 0;
+    padding: 0;
     height: 100vh;
     background-color: gray;
+    overflow: hidden;
 }
 
 .grid-container{
     margin: 10px;
-    height: 100%;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px); /* subtracting 10px margin from each side */
     display: grid;
     grid-template-columns: repeat(3, fr);
     grid-template-rows: 1fr 2fr 1fr 1fr;
-    grid-template-areas: "header header header";
+    grid-template-areas: 
+    "header header _";
     grid-auto-rows: minmax(150px, 1fr);
     gap: 10px;
 }
 
 .grid-item{
     padding: 10px;
-    border: 1px white solid;
+    /* border: 5px white solid; */
     background-color: rgb(93, 230, 230);
     min-height: 0;
 }

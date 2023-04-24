@@ -11,9 +11,8 @@ const port = 5000
 app.use(express.json())
 
 // Since we are using the chart module installed from node js, we need to expose it so that the web page can use it.
-app.use('/scripts/charts', express.static('./node_modules/chart.js/dist/'))
-app.use('/js', express.static('./js'))
-app.use('/css', express.static('./css'))
+app.use(express.static('./public'))
+app.use('/scripts/charts', express.static('./node_modules/chart.js/'))
 
 function connectToDB()
 {
@@ -21,7 +20,7 @@ function connectToDB()
 }
 
 app.get('/', (request, response)=>{
-    fs.readFile('./html/user_charts.html', 'utf8', (err, html)=>{
+    fs.readFile('./public/html/user_charts.html', 'utf8', (err, html)=>{
         if(err) response.status(500).send('There was an error: ' + err)
         console.log('Loading page...')
         response.send(html)
@@ -64,7 +63,7 @@ app.get('/api/levels', (request, response)=>{
 
         connection.connect()
 
-        connection.query('select * from levels order by completion_rate ASC', (error, results, fields)=>{
+        connection.query('select * from levels where completion_rate is not null order by completion_rate desc limit 5', (error, results, fields)=>{
             if(error) console.log(error)
             console.log("Sending data correctly.")
             response.status(200)

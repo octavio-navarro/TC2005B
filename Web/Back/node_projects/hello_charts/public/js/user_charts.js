@@ -1,6 +1,3 @@
-import {Chart, registerables} from '/scripts/charts/chart.esm.js'
-Chart.register(...registerables);
-
 /**
  * @param {number} alpha Indicated the transparency of the color
  * @returns {string} A string of the form 'rgba(240, 50, 123, 1.0)' that represents a color
@@ -10,6 +7,8 @@ function random_color(alpha=1.0)
     const r_c = () => Math.round(Math.random() * 255)
     return `rgba(${r_c()}, ${r_c()}, ${r_c()}, ${alpha}`
 }
+
+Chart.defaults.font.size = 16;
 
 // We obtain a reference to the canvas that we are going to use to plot the chart.
 const ctx = document.getElementById('firstChart').getContext('2d');
@@ -73,6 +72,7 @@ try
         // In this case, we just separate the data into different arrays using the map method of the values array. This creates new arrays that hold only the data that we need.
         const level_names = values.map(e => e['name'])
         const level_colors = values.map(e => random_color(0.8))
+        const level_borders = values.map(e => 'rgba(0, 0, 0, 1.0)')
         const level_completion = values.map(e => e['completion_rate'])
 
         const ctx_levels1 = document.getElementById('apiChart1').getContext('2d');
@@ -85,6 +85,7 @@ try
                         {
                             label: 'Completion Rate',
                             backgroundColor: level_colors,
+                            borderColor: level_borders,
                             data: level_completion
                         }
                     ]
@@ -101,6 +102,7 @@ try
                         {
                             label: 'Completion Rate',
                             backgroundColor: level_colors,
+                            pointRadius: 10,
                             data: level_completion
                         }
                     ]
@@ -117,6 +119,8 @@ try
                         {
                             label: 'Completion Rate',
                             backgroundColor: level_colors,
+                            borderColor: level_borders,
+                            borderWidth: 2,
                             data: level_completion
                         }
                     ]

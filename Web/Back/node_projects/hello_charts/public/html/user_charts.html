@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js" integrity="sha512-vCUbejtS+HcWYtDHRF2T5B0BKwVG/CLeuew5uT2AiX4SJ2Wff52+kfgONvtdATqkqQMC9Ye5K+Td0OTaz+P7cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" defer src="/js/user_charts.js"></script> 
     <link href="/css/user_charts.css" type="text/css" rel="stylesheet">
     <title>User Charts</title>
 </head>
+
 <body>
     <header class="container">
         <h1>User charts using Charts JS</h1>
@@ -15,15 +18,17 @@
 
     <div class="container">
         <h2>Installation</h2>
-        <p>You can get the latest version of Chart.js from npm , the GitHub releases , or use a Chart.js CDN . Detailed installation instructions can be found on the<a href="https://www.chartjs.org/docs/latest/getting-started/installation.html">installation page.</a>In this example, the module was installed using npm. The<a href="https://www.chartjs.org/docs/latest/">documentation</a>for charts.js is very comprehensive. Have it around to search for anything that you might need.</p>
+        <p>You can get the latest version of Chart.js from npm , the GitHub releases , or use a Chart.js CDN . Detailed installation instructions can be found on the<a href="https://www.chartjs.org/docs/latest/getting-started/installation.html">installation page.</a>In this example, the module was obtained using a<a href="https://cdnjs.com/libraries/Chart.js">CDN</a>. The<a href="https://www.chartjs.org/docs/latest/">documentation</a>for charts.js is very comprehensive. Have it around to search for anything that you might need.</p>
     </div>
 
     <div class="container">
-        <h2>Creating a Chart</h2>
-        <p>It's easy to get started with Chart.js. All that's required is the script included in your page along with a single &lt;canvas&gt; node to render the chart. Canvas are used to draw graphics on a web page.</p>
-
-        <p>For this basic chart, we need to create a new Chart and draw it on the canvas. We select the canvas using <code>document.getElementById</code> and the id of the canvas. Then, we need to create a configuration object which contains the labels, colors, and data that is goint go be displayed.</p>
-
+        <div id="creatingChart">
+            <h2>Creating a Chart</h2>
+            <p>It's easy to get started with Chart.js. All that's required is the script included in your page along with a single &lt;canvas&gt; node to render the chart. Canvas are used to draw graphics on a web page.</p>
+            
+            <p>For this basic chart, we need to create a new Chart and draw it on the canvas. We select the canvas using <code>document.getElementById</code> and the id of the canvas. Then, we need to create a configuration object which contains the labels, colors, and data that is goint go be displayed.</p>
+        </div>
+            
         <canvas id="firstChart" width="600" height="600" style="max-width: 600px; max-height: 600px;"></canvas>
     </div>
 
@@ -36,9 +41,9 @@
         <p>Using the arrays that only have the data that we need, we can create a new configuration object that is going to be plotted in the chart. For this example, we are ploting the completion rate of each level in the 'levels' table. Specifically, we need arrays that hold the names, and completion rate for each level. An additional array that contains a random color for each chart element is also created.</p>
 
         <div class="chartContainer">
-            <canvas id="apiChart1" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
-            <canvas id="apiChart2" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
-            <canvas id="apiChart3" width="600" height="600" style="max-width: 30%; max-height: 600px;"></canvas>
+            <canvas id="apiChart1" width="600" height="600"></canvas>
+            <canvas id="apiChart2" width="600" height="600"></canvas>
+            <canvas id="apiChart3" width="600" height="600"></canvas>
         </div>
     </div>
 </body>

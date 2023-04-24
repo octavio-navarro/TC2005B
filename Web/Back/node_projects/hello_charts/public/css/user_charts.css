@@ -3,19 +3,27 @@
 }
 
 h1, h2, p{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p{
+    font-size: 1.2em;
 }
 
 h1{
     margin: 0;
 }
 
-div, canvas{
+.container, canvas{
     padding: 1%;
     border: 1px solid black;
 }
 
-.container {
+#creatingChart{
+    margin: 0;
+}
+
+.container, .container h2 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,4 +39,6 @@ div, canvas{
 
 .chartContainer canvas{
     flex-grow: 1;
+    max-width: 30%; 
+    max-height: 600px;
 }
