@@ -37,6 +37,7 @@ app.get('/api/users', async (request, response)=>{
         const [results, fields] = await connection.execute('select * from users')
 
         console.log(`${results.length} rows returned`)
+        console.log(results)
         response.json(results)
     }
     catch(error)
@@ -65,8 +66,8 @@ app.get('/api/users/:id', async (request, response)=>
 
         const [results_user, _] = await connection.query('select * from users where id_users= ?', [request.params.id])
         
-        console.log(`${results.length} rows returned`)
-        response.json(results)
+        console.log(`${results_user.length} rows returned`)
+        response.json(results_user)
     }
     catch(error)
     {

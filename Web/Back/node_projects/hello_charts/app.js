@@ -1,8 +1,7 @@
-
 "use strict"
 
 import express from 'express'
-import mysql from 'mysql'
+import mysql from 'mysql2/promise'
 import fs from 'fs'
 
 const app = express()
@@ -26,56 +25,99 @@ app.get('/', (request, response)=>{
     })
 })
 
-app.get('/api/users', (request, response)=>{
-    let connection = connectToDB()
+app.get('/api/users', async (request, response)=>{
+    let connection = null
 
     try{
 
-        connection.connect()
+        connection = await connectToDB()
 
-        connection.query('select * from users', (error, results, fields)=>{
-            if(error) {
-                console.log(error)
-                response.status(500)
-            }
-            else{
-                console.log("Sending data correctly.")
-                response.status(200)
-                response.json(results)
-            }
-        })
+        let [results, fields] = await connection.query('select * from users')
+        
 
-        connection.end()
+        console.log("Sending data correctly.")
+        response.status(200)
+        response.json(results)
     }
     catch(error)
     {
         response.status(500)
         response.json(error)
         console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
     }
 })
 
-app.get('/api/levels', (request, response)=>{
-    let connection = connectToDB()
+app.get('/api/levels', async (request, response)=>{
+    let connection = null
 
     try{
 
-        connection.connect()
+        connection = await connectToDB()
 
-        connection.query('select * from levels where completion_rate is not null order by completion_rate desc limit 5', (error, results, fields)=>{
-            if(error) console.log(error)
-            console.log("Sending data correctly.")
-            response.status(200)
-            response.json(results)
-        })
+        const [results, fields] = await connection.query('select * from top_levels')
+        
+        
+        // connection.query('select * from levels where completion_rate is not null order by completion_rate desc limit 5', (error, results, fields)=>{
 
-        connection.end()
+        console.log("Sending data correctly.")
+        response.status(200)
+        response.json(results)
     }
     catch(error)
     {
         response.status(500)
         response.json(error)
         console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
+    }
+})
+
+app.get('/api/levels/:level_name', async (request, response)=>{
+
+    let connection = null
+
+    try
+    {
+        connection = await connectToDB()
+
+        // const statement = await connection.prepare('select * from top_levels where name = ?')
+        // const [rows, columns] = await statement.execute([request.params.level_name])
+
+        const [rows, columns] = await connection.execute('select * from top_levels where name = ?', [request.params.level_name])
+
+        console.log(`Params: ${request.params.level_name}`)
+        console.log("Sending data correctly.")
+        response.status(200)
+        response.json(rows)
+    }
+    catch(error)
+    {
+        response.status(500)
+        response.json(error)
+        console.log(error)
+    }
+    finally
+    {
+        if(connection!==null) 
+        {
+            connection.end()
+            console.log("Connection closed succesfully!")
+        }
     }
 })
 
