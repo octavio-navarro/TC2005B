@@ -17,7 +17,6 @@ Build a computational simulator that reproduces the partial behavior of a busine
 The main sections of the repository are the following:
 
 - [Web](Web/Readme.md): The code examples for the web development part of the course. The material includes developing web applications with HTML, CSS, and Javascript, as well as developing server side applications and APIs.
-- [Databases](Databases/Readme.md): Code example for the database part of the course.
 - [Video games](Videogames/Readme.md): Code example for the video game development part of the course.
 - [Terminal commands](Terminal_commands/Readme.md): This section has a cheat sheet with different terminal commands that might be useful.
 - [Git commands](Git_commands/Readme.md): This section has a small tutorial on git, git commands, git branching, and github flow.
