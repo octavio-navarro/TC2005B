@@ -1,4 +1,6 @@
-const response = await fetch('http://127.0.0.1:3000/api/hello', {
+const baseUrl = 'http://localhost:3000/api/'
+
+const response = await fetch(baseUrl + 'hello', {
     method:'GET'
 })
 
@@ -20,7 +22,7 @@ const params = new URLSearchParams({
     surname:'Navarro'
 })
 
-const response_parameters = await fetch('http://127.0.0.1:3000/api/hello?' + params, {
+const response_parameters = await fetch(baseUrl + 'hello?' + params, {
     method:'GET',
 })
 
@@ -34,22 +36,3 @@ if(response_parameters.ok)
 }
 else
     console.log(`HTTP Error: ${response_parameters.status}`)
-
-const response_db = await fetch('http://localhost:3000/api/users', {
-    method:'GET',
-    headers: 
-    {
-        'accept':'application/json'
-    }
-})
-
-if(response_db.ok)
-{
-    const results = await response_db.json()
-
-    console.log(results)
-}
-else
-{
-    console.log("Error")
-}
