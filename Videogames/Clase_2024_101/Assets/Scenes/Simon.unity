@@ -310,7 +310,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 153945530}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1787797167}
+        m_TargetAssemblyTypeName: SimonController, Assembly-CSharp
+        m_MethodName: ButtonSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &153945530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +742,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 679755852}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1787797167}
+        m_TargetAssemblyTypeName: SimonController, Assembly-CSharp
+        m_MethodName: ButtonSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &679755852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -863,7 +887,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1221725237}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1787797167}
+        m_TargetAssemblyTypeName: SimonController, Assembly-CSharp
+        m_MethodName: ButtonSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1221725237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,7 +1082,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2051871857}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1787797167}
+        m_TargetAssemblyTypeName: SimonController, Assembly-CSharp
+        m_MethodName: ButtonSelect
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2051871857
 MonoBehaviour:
   m_ObjectHideFlags: 0
