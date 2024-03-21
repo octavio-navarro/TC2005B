@@ -21,17 +21,18 @@ public class SimonButton : MonoBehaviour
         originalColor = GetComponent<Image>().color;
     }
 
+    // Method called from the SimonController to highlight the button
     public void HighLight()
     {
         audioSource.Play();
         StartCoroutine(ChangeColor());
     }
 
+    // Briefly switch to white color before going back to the original color
     IEnumerator ChangeColor()
     {
         GetComponent<Image>().color = Color.white;
         yield return new WaitForSeconds(0.5f);
         GetComponent<Image>().color = originalColor;
     }
-
 }
