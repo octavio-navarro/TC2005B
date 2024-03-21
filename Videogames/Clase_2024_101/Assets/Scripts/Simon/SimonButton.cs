@@ -13,14 +13,17 @@ using UnityEngine.UI;
 public class SimonButton : MonoBehaviour
 {
     Color originalColor;
+    AudioSource audioSource;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         originalColor = GetComponent<Image>().color;
     }
 
     public void HighLight()
     {
+        audioSource.Play();
         StartCoroutine(ChangeColor());
     }
 
