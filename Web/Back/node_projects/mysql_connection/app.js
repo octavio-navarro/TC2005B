@@ -6,7 +6,7 @@ import express from "express";
 import mysql from "mysql2/promise";
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
 app.use(express.json());
 
@@ -29,6 +29,10 @@ async function connectToDB() {
 // A try statement allows you to define a block of code to be tested for errors while it is being executed. If an error is thrown, the try statement will catch it.
 // The catch statement allows you to define a block of code to be executed, if an error occurs in the try block.
 // The finally statement lets you execute code, after try and catch, regardless of the result.
+
+app.get("/", async (req, res)=>{
+  res.status(200).send("ADAD")
+})
 
 app.get("/api/cards", async (request, response) => {
   let connection = null;
@@ -77,7 +81,14 @@ app.get("/api/cards/:id", async (request, response) => {
 
     console.log(`${results.length} rows returned`);
     console.log(results);
-    response.status(200).json(results);
+    if(results.length > 0)
+    {
+      response.status(200).json(results[0]);
+    }
+    else
+    {
+      response.status(404).send("No cards found")
+    }
   }
   catch (error) {
     response.status(500);
@@ -202,5 +213,5 @@ app.delete("/api/cards/:id", async (request, response) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}/`);
 });
