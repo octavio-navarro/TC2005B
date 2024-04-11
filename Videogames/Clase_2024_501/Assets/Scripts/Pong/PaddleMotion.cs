@@ -1,6 +1,7 @@
 
 /*
 Control the movements of a game paddle
+Can be used for horizontal or vertical movement
 
 Gilberto Echeverria
 2024-04-09
@@ -21,10 +22,23 @@ public class PaddleMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(positiveKey) && transform.position.y < limit) {
+        // Move the game object when the keys are pressed
+        if (Input.GetKey(positiveKey) && GetMotionPosition() < limit) {
             transform.Translate(direction * speed * Time.deltaTime);
-        } else if (Input.GetKey(negativeKey) && transform.position.y > -limit) {
+        } else if (Input.GetKey(negativeKey) && GetMotionPosition() > -limit) {
             transform.Translate(-direction * speed * Time.deltaTime);
+        }
+    }
+
+    // Identify the position along the direction of movement
+    float GetMotionPosition()
+    {
+        if (direction.x != 0) {
+            return transform.position.x;
+        } else if (direction.y != 0) {
+            return transform.position.y;
+        } else {
+            return 0;
         }
     }
 }
