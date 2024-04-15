@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `api_game_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `api_game_db` /*!40101 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `api_game_db`;
--- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
 --
 -- Host: localhost    Database: api_game_db
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	8.0.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,6 +47,23 @@ INSERT INTO `levels` VALUES (1,'cactus','speed run','IS1UqGqEWLH82KkezFNw','2022
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `top_levels`
+--
+
+DROP TABLE IF EXISTS `top_levels`;
+/*!50001 DROP VIEW IF EXISTS `top_levels`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `top_levels` AS SELECT 
+ 1 AS `id_levels`,
+ 1 AS `name`,
+ 1 AS `type`,
+ 1 AS `description`,
+ 1 AS `creation_date`,
+ 1 AS `completion_rate`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `user_level`
 --
 
@@ -74,29 +91,9 @@ CREATE TABLE `user_level` (
 
 LOCK TABLES `user_level` WRITE;
 /*!40000 ALTER TABLE `user_level` DISABLE KEYS */;
-INSERT INTO `user_level` VALUES (1,4,1,'2022-04-17 21:16:53',0),(2,19,1,'2022-04-17 21:16:53',0),(3,18,6,'2022-04-17 21:16:53',0),(4,6,4,'2022-04-17 21:16:53',0),(5,17,9,'2022-04-17 21:16:53',1),(6,1,9,'2022-04-17 21:16:53',1),(7,6,7,'2022-04-17 21:16:53',1),(8,14,7,'2022-04-17 21:16:53',1),(9,11,4,'2022-04-17 21:16:53',1),(10,18,10,'2022-04-17 21:16:53',0),(11,6,1,'2022-04-17 21:16:53',0),(12,12,6,'2022-04-17 21:16:53',1),(13,4,7,'2022-04-17 21:16:53',0),(14,15,7,'2022-04-17 21:16:53',1),(15,14,8,'2022-04-17 21:16:53',0),(16,2,8,'2022-04-17 21:16:53',1),(17,18,4,'2022-04-17 21:16:53',1),(18,10,3,'2022-04-17 21:16:53',1),(19,6,6,'2022-04-17 21:16:53',0),(20,10,1,'2022-04-17 21:16:53',1);
+INSERT INTO `user_level` VALUES (1,4,1,'2022-04-17 21:16:53',0),(3,18,6,'2022-04-17 21:16:53',0),(4,6,4,'2022-04-17 21:16:53',0),(5,17,9,'2022-04-17 21:16:53',1),(6,1,9,'2022-04-17 21:16:53',1),(7,6,7,'2022-04-17 21:16:53',1),(8,14,7,'2022-04-17 21:16:53',1),(9,11,4,'2022-04-17 21:16:53',1),(10,18,10,'2022-04-17 21:16:53',0),(11,6,1,'2022-04-17 21:16:53',0),(12,12,6,'2022-04-17 21:16:53',1),(13,4,7,'2022-04-17 21:16:53',0),(14,15,7,'2022-04-17 21:16:53',1),(15,14,8,'2022-04-17 21:16:53',0),(16,2,8,'2022-04-17 21:16:53',1),(17,18,4,'2022-04-17 21:16:53',1),(18,10,3,'2022-04-17 21:16:53',1),(19,6,6,'2022-04-17 21:16:53',0),(20,10,1,'2022-04-17 21:16:53',1);
 /*!40000 ALTER TABLE `user_level` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `user_level_AFTER_INSERT` AFTER INSERT ON `user_level` FOR EACH ROW BEGIN
-	update levels l 
-	join (select id_level, avg(completed) as rate from api_game_db.user_level group by id_level) r 
-	on l.id_levels = r.id_level
-	set l.completion_rate = r.rate;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `users`
@@ -111,7 +108,7 @@ CREATE TABLE `users` (
   `surname` varchar(45) NOT NULL,
   PRIMARY KEY (`id_users`),
   UNIQUE KEY `id_users_UNIQUE` (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,9 +117,27 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Amara','Mayo'),(2,'Edgar','Dalton'),(3,'Jordan','Holland'),(4,'Jayda','Montoya'),(5,'Myles','Harmon'),(6,'Kelvin','Kidd'),(7,'Gabriela','Lang'),(8,'Tori','Wood'),(9,'Triston','Mercado'),(10,'Lilianna','Sutton'),(11,'Quincy','Horne'),(12,'Autumn','Obrien'),(13,'Journey','Morse'),(14,'Samir','Velez'),(15,'Malik','Lowe'),(16,'Reina','Sexton'),(17,'Sienna','Strickland'),(18,'Arjun','Lester'),(19,'Marvin','Rollins'),(22,'a','a');
+INSERT INTO `users` VALUES (1,'Amara','Mayo'),(2,'Edgar','Dalton'),(3,'Jordan','Holland'),(4,'Jayda','Montoya'),(5,'Myles','Harmon'),(6,'Kelvin','Kidd'),(7,'Gabriela','Lang'),(8,'Tori','Wood'),(9,'Triston','Mercado'),(10,'Lilianna','Sutton'),(11,'Quincy','Horne'),(12,'Autumn','Obrien'),(13,'Journey','Morse'),(14,'Samir','Velez'),(15,'Malik','Lowe'),(16,'Reina','Sexton'),(17,'Sienna','Strickland'),(18,'Arjun','Lester'),(28,'1','2'),(29,'12233','33333'),(35,'12313123','1313213'),(36,'11','11'),(37,'123','123');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Final view structure for view `top_levels`
+--
+
+/*!50001 DROP VIEW IF EXISTS `top_levels`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `top_levels` AS select `levels`.`id_levels` AS `id_levels`,`levels`.`name` AS `name`,`levels`.`type` AS `type`,`levels`.`description` AS `description`,`levels`.`creation_date` AS `creation_date`,`levels`.`completion_rate` AS `completion_rate` from `levels` where (`levels`.`completion_rate` is not null) order by `levels`.`completion_rate` desc limit 5 */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -133,4 +148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-24 19:18:03
+-- Dump completed on 2024-04-15  7:54:09

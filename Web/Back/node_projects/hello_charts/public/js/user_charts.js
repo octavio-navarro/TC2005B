@@ -52,11 +52,7 @@ const firstChart = new Chart(ctx, {
 // To plot data from an API, we first need to fetch a request, and then process the data.
 try
 {
-    const levels_response = await fetch('http://localhost:5000/api/levels',{
-        method: 'GET'
-    })
-
-    console.log('Got a response correctly')
+    const levels_response = await fetch('http://localhost:5000/api/levels',{method: 'GET'})
 
     if(levels_response.ok)
     {
@@ -66,14 +62,12 @@ try
 
         console.log(results)
         console.log('Data converted correctly. Plotting chart.')
-        
-        const values = Object.values(results)
 
         // In this case, we just separate the data into different arrays using the map method of the values array. This creates new arrays that hold only the data that we need.
-        const level_names = values.map(e => e['name'])
-        const level_colors = values.map(e => random_color(0.8))
-        const level_borders = values.map(e => 'rgba(0, 0, 0, 1.0)')
-        const level_completion = values.map(e => e['completion_rate'])
+        const level_names = results.map(e => e['name'])
+        const level_colors = results.map(e => random_color(0.8))
+        const level_borders = results.map(e => 'rgba(0, 0, 0, 1.0)')
+        const level_completion = results.map(e => e['completion_rate'])
 
         const ctx_levels1 = document.getElementById('apiChart1').getContext('2d');
         const levelChart1 = new Chart(ctx_levels1, 

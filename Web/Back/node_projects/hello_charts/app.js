@@ -12,11 +12,14 @@ app.use(express.json())
 // Since we are using the chart module installed from node js, we need to expose it so that the web page can use it.
 app.use(express.static('./public'))
 
-function connectToDB()
+// This function will connect to the database and return the connection object.
+async function connectToDB()
 {
-    return mysql.createConnection({host:'localhost', user:'hagen', password:'M4sqls3rv3r.', database:'api_game_db'})   
+    return await mysql.createConnection({host:'localhost', user:'hagen', password:'M4sqls3rv3r.', database:'api_game_db'})   
 }
 
+// This is the route that will be used to load the page. It will read the html file and send it to the client.
+// The client will then load the page and make the requests to the server.
 app.get('/', (request, response)=>{
     fs.readFile('./public/html/user_charts.html', 'utf8', (err, html)=>{
         if(err) response.status(500).send('There was an error: ' + err)
@@ -25,6 +28,7 @@ app.get('/', (request, response)=>{
     })
 })
 
+// This route will be used to get the data from the users table in the database. 
 app.get('/api/users', async (request, response)=>{
     let connection = null
 
@@ -33,7 +37,6 @@ app.get('/api/users', async (request, response)=>{
         connection = await connectToDB()
 
         let [results, fields] = await connection.query('select * from users')
-        
 
         console.log("Sending data correctly.")
         response.status(200)
@@ -55,6 +58,8 @@ app.get('/api/users', async (request, response)=>{
     }
 })
 
+// This route will be used to get the data from the top_levels view in the database.
+// That view returns the top 5 levels ordered by completion rate.
 app.get('/api/levels', async (request, response)=>{
     let connection = null
 
@@ -63,10 +68,7 @@ app.get('/api/levels', async (request, response)=>{
         connection = await connectToDB()
 
         const [results, fields] = await connection.query('select * from top_levels')
-        
-        
-        // connection.query('select * from levels where completion_rate is not null order by completion_rate desc limit 5', (error, results, fields)=>{
-
+    
         console.log("Sending data correctly.")
         response.status(200)
         response.json(results)
@@ -95,9 +97,6 @@ app.get('/api/levels/:level_name', async (request, response)=>{
     {
         connection = await connectToDB()
 
-        // const statement = await connection.prepare('select * from top_levels where name = ?')
-        // const [rows, columns] = await statement.execute([request.params.level_name])
-
         const [rows, columns] = await connection.execute('select * from top_levels where name = ?', [request.params.level_name])
 
         console.log(`Params: ${request.params.level_name}`)
@@ -120,7 +119,6 @@ app.get('/api/levels/:level_name', async (request, response)=>{
         }
     }
 })
-
 
 app.listen(port, ()=>
 {
