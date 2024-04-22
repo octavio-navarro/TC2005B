@@ -30,11 +30,13 @@ public class SimonController : MonoBehaviour
         NewGame();
     }
 
-    void NewGame()
+    public void NewGame()
     {
+        ClearExistingButtons();
         sequence = new List<int>();
         index = 0;
         level = 0;
+        PlayerPrefs.SetInt("score", 0);
         MakeButtons();
         AddNumber();
     }
@@ -70,6 +72,14 @@ public class SimonController : MonoBehaviour
         }
     }
 
+    void ClearExistingButtons()
+    {
+        // Destroy all the buttons in the scene
+        foreach (GameObject button in buttons) {
+            Destroy(button);
+        }
+    }
+
     // Add a new number to the sequence that the player must replay
     void AddNumber()
     {
@@ -97,24 +107,30 @@ public class SimonController : MonoBehaviour
     // in the correct sequence order
     public void ButtonSelect(int buttonID)
     {
+        // Exit if if it's the computer's turn
+        if (!playerTurn) {
+            return;
+        }
+        // Show the button pressed by the player
         Debug.Log("Button " + buttonID + " pressed");
-        if (playerTurn) {
-            buttons[buttonID].GetComponent<SimonButton>().HighLight();
-            //Debug.Log("Pressed: " + buttonID + " | Should be: " + sequence[index]);
-            if (sequence[index] == buttonID) {
-                // Continue the sequence
-                index++;
-                // Check if we completed the sequence
-                if (index == sequence.Count) {
-                    level++;
-                    PlayerPrefs.SetInt("score", level);
-                    AddNumber();
+        buttons[buttonID].GetComponent<SimonButton>().HighLight();
+        //Debug.Log("Pressed: " + buttonID + " | Should be: " + sequence[index]);
+        if (sequence[index] == buttonID) {
+            // Continue the sequence
+            index++;
+            // Check if we completed the sequence
+            if (index == sequence.Count) {
+                level++;
+                PlayerPrefs.SetInt("score", level);
+                if (level > PlayerPrefs.GetInt("highscore", 0)) {
+                    PlayerPrefs.SetInt("highscore", level);
                 }
-            } else {
-                // Game over
-                Debug.Log("GAME OVER");
-                UnityEngine.SceneManagement.SceneManager.LoadScene("SimonResults");
+                AddNumber();
             }
+        } else {
+            // Game over
+            Debug.Log("GAME OVER");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SimonResults");
         }
     }
 }

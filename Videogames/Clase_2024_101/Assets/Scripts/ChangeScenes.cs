@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class ChangeScenes : MonoBehaviour
 {
-    public void GoTo(string scene)
+    public static void GoTo(string scene)
     {
         // Load the scene
         UnityEngine.SceneManagement.SceneManager.LoadScene(scene);        
