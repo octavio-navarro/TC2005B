@@ -8,12 +8,17 @@ Gilberto Echeverria
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// Necessary to display text in the UI
+using TMPro;
 
 public class PongManager : MonoBehaviour
 {
     [SerializeField] GameObject ball;
     [SerializeField] GameObject ballPrefab;
     [SerializeField] float speed;
+
+    [SerializeField] TMP_Text scoreLeft;
+    [SerializeField] TMP_Text scoreRight;
 
     public int pointsLeft;
     public int pointsRight;
@@ -28,7 +33,16 @@ public class PongManager : MonoBehaviour
     void Update()
     {
         // Reset a ball if there is one in the game
-        if (Input.GetKeyDown(KeyCode.R) && ball != null)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reset();
+        }
+    }
+
+    public void Reset()
+    {
+        // Check if there is a ball in the game
+        if (ball != null)
         {
             Destroy(ball);
             InitGame();
@@ -54,9 +68,11 @@ public class PongManager : MonoBehaviour
     {
         if (side == "left") {
             pointsLeft++;
+            scoreLeft.text = pointsLeft.ToString();
             InitGame();
         } else if (side == "right") {
             pointsRight++;
+            scoreRight.text = pointsRight.ToString();
             InitGame();
         }
     }
