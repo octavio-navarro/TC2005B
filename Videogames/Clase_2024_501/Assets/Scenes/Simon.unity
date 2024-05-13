@@ -380,6 +380,8 @@ MonoBehaviour:
   numButtons: 6
   buttonPrefab: {fileID: 7962168657606783236, guid: 4b68e6fe9e619bfce8ab1918cb188e64, type: 3}
   buttonParent: {fileID: 153996694}
+  allButtons:
+    buttons: []
 --- !u!1 &836194313
 GameObject:
   m_ObjectHideFlags: 0
