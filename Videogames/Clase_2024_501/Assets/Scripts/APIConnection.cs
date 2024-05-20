@@ -43,8 +43,10 @@ public class APIConnection : MonoBehaviour
                 Debug.Log("The response was: " + result);
                 // Start the process to create the simon buttons
                 controller.apiData = result;
-                controller.PrepareButtons();
             }
+            // Start the game anyway. If API data is not available,
+            // use the hardcoded values
+            controller.PrepareButtons();
         }
     }
 }
