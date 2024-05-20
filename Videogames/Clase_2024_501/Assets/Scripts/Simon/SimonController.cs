@@ -26,7 +26,7 @@ public class SimonController : MonoBehaviour
     [SerializeField] Transform buttonParent;
 
     // Fake JSON string to simulate the data comming from the API
-    string apiData = @"
+    public string apiData = @"
     {
         ""buttons"": [
             {
@@ -57,11 +57,12 @@ public class SimonController : MonoBehaviour
     void Start()
     {
         // Configure the buttons to be used in the game
-        PrepareButtons();
+        //PrepareButtons();
+        GetComponent<APIConnection>().GetData();
     }
 
     // Configure the callback functions for the buttons
-    void PrepareButtons()
+    public void PrepareButtons()
     {
         // Convert the json string into an object
         allButtons = JsonUtility.FromJson<ColorButtons>(apiData);
