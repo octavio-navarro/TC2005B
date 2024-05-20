@@ -127,6 +127,7 @@ public class SimonController : MonoBehaviour
                     AddToSequence();
                 }
             } else {
+                playerTurn = false;
                 Debug.Log("Game Over!");
                 infoText.text = $"Game Over!\nYou cleared level {level}";
             }
