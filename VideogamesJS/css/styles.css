@@ -1,0 +1,88 @@
+*{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: White;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    overflow: hidden;
+    display:grid;
+    grid-template-rows: 10vh 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+#headerContainer{
+  grid-area: header;
+  background-color: darkred;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+h1{
+  margin: 0px;
+}
+
+canvas {
+    /* width: 75vw; */
+    /* height: 75vh; */
+    border: 2px solid black;
+    background-color: #87ceeb;
+    /* width: 600px; */
+    /* height: 600px; */
+}
+
+#canvas {
+  background-color: #87ceeb;
+  grid-area: main;
+}
+
+.lil-gui.autoPlace{
+  top: 15vh;
+  right: 5vw;
+}
+
+#backButton {
+    margin: 10px;
+}
+
+#uiContainer {
+  position: absolute;
+  top: 15vh;
+  right: 5vw;
+  z-index: 3;
+  font-family: monospace;
+  pointer-events: none;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 1em;
+  border: 1px solid turquoise;
+
+  text-shadow:
+   -1px -1px 0 #FFF,
+    1px -1px 0 #FFF,
+    -1px 1px 0 #FFF,
+     1px 1px 0 #FFF;
+}
+#ui {
+  opacity: 0.8;
+}
+#ui>div {
+  pointer-events: none;
+}
+#ui input, #ui select, #ui option, #ui canvas {
+  pointer-events: auto;
+}
