@@ -10,7 +10,7 @@
 "use strict";
 
 import { strictEqual, deepStrictEqual } from "assert";
-import * as tc2005b from "../js/tc2005b.js";
+import * as tc2005b from "../00_Basics/tc2005b.js";
 
 
 describe("TC2005B Module Tests", () => {
@@ -240,7 +240,7 @@ describe("TC2005B Module Tests", () => {
         });
 
         it("two char string, no", () => {
-            strictEqual(tc2005b.isPalindrome("un"), true);
+            strictEqual(tc2005b.isPalindrome("un"), false);
         });
 
         it("multiple char string, yes", () => {
@@ -248,7 +248,7 @@ describe("TC2005B Module Tests", () => {
         });
 
         it("multiple char string, no", () => {
-            strictEqual(tc2005b.isPalindrome("rizuzri"), true);
+            strictEqual(tc2005b.isPalindrome("rizuzri"), false);
         });
     });
 
