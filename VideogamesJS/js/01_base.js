@@ -30,8 +30,9 @@ function main() {
     ctx.fillRect(canvasWidth / 2, canvasHeight / 2, boxSize, boxSize);
 
     // Draw an ellipse or circle
-    ctx.fillStyle = "black";
-    ctx.ellipse(100, 100, 60, 30, Math.PI/4, 0, Math.PI * 2, false);
-    //ctx.fill();
+    ctx.fillStyle = "yellow";
+    ctx.strokeStyle = "green";
+    ctx.ellipse(400, 300, 60, 30, Math.PI/4, 0, Math.PI * 2, false);
+    ctx.fill();
     ctx.stroke();
 }

@@ -44,14 +44,16 @@ function drawScene() {
     drawAxes();
 
     // Update the offset to rotate around the center
-
+    let offsetX = radius * Math.cos(angle);
+    let offsetY = radius * Math.sin(angle);
 
 
     // Draw the axis
     ctx.fillStyle = box.color;
-    ctx.fillRect(box.x, box.y, box.size, box.size);
+    ctx.fillRect(box.x + offsetX, box.y + offsetY, box.size, box.size);
 
     // Update vales for next frame
+    angle += 0.1;
 
 
 
