@@ -12,7 +12,7 @@ const canvasWidth = 800;
 const canvasHeight = 600;
 
 let oldTime;
-const paddleVelocity = 1.3;
+const paddleVelocity = 1.0;
 const speedIncrease = 1.1;
 const initialSpeed = 0.5;
 
@@ -26,8 +26,7 @@ let ctx;
 class Ball extends GameObject {
     constructor(position, width, height, color) {
         super(position, width, height, color, "ball");
-        this.initVelocity();
-        this.inPlay = false;
+        this.reset();
     }
 
     update(deltaTime) {
@@ -38,6 +37,8 @@ class Ball extends GameObject {
         this.inPlay = true;
         let angle = Math.random() * (Math.PI / 2) - (Math.PI / 4);
         this.velocity = new Vec(Math.cos(angle), Math.sin(angle)).times(initialSpeed);
+        // Select a random direction for the serve
+        this.velocity.x *= (Math.random() < 0.5) ? 1 : -1;
     }
 
     reset() {
