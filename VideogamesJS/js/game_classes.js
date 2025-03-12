@@ -34,7 +34,6 @@ class Vec {
  */
 //let p = new Vec(0, 8);
 //let v = new Vec(1, 1);
-//console.log("Initial position: ", p);
 //p = p.plus(v.times(1));
 //console.log("New position: ", p);
 //console.log("plus: ", p.plus(v));
@@ -74,12 +73,22 @@ class GameObject {
     }
 
     draw(ctx) {
+
         if (this.spriteImage) {
+            if (this.spriteRect) {
+                ctx.drawImage(this.spriteImage,
+                              this.spriteRect.x * this.spriteRect.width,
+                              this.spriteRect.y * this.spriteRect.height,
+                              this.spriteRect.width, this.spriteRect.height,
+                              this.position.x, this.position.y,
+                              this.width, this.height);
+            } else {
                 ctx.drawImage(this.spriteImage,
                               this.position.x, this.position.y,
                               this.width, this.height);
                               //this.position.x * scale, this.position.y * scale,
                               //this.width * scale, this.height * scale);
+            }
         } else {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.position.x, this.position.y,
@@ -90,6 +99,48 @@ class GameObject {
     // Empty template for all GameObjects to be able to update
     update() {
 
+    }
+}
+
+
+// Update 2025-03-12
+// Class to control the animation of characters and objects
+class AnimatedObject extends GameObject {
+    constructor(position, width, height, color, type, sheetCols) {
+        super(position, width, height, color, type);
+        // Animation properties
+        this.frame = 0;
+        this.minFrame = 0;
+        this.maxFrame = 0;
+        this.sheetCols = sheetCols;
+
+        this.repeat = true;
+
+        // Delay between frames (in milliseconds)
+        this.frameDuration = 100;
+        this.totalTime = 0;
+    }
+
+    setAnimation(minFrame, maxFrame, repeat, duration) {
+        this.minFrame = minFrame;
+        this.maxFrame = maxFrame;
+        this.frame = minFrame;
+        this.repeat = repeat;
+        this.totalTime = 0;
+        this.frameDuration = duration;
+    }
+
+    updateFrame(deltaTime) {
+        this.totalTime += deltaTime;
+        if (this.totalTime > this.frameDuration) {
+            // Loop around the animation frames if the animation is set to repeat
+            // Otherwise stay on the last frame
+            let restartFrame = (this.repeat ? this.minFrame : this.frame);
+            this.frame = this.frame < this.maxFrame ? this.frame + 1 : restartFrame;
+            this.spriteRect.x = this.frame % this.sheetCols;
+            this.spriteRect.y = Math.floor(this.frame / this.sheetCols);
+            this.totalTime = 0;
+        }
     }
 }
 
@@ -107,6 +158,7 @@ class TextLabel {
         ctx.fillText(text, this.x, this.y);
     }
 }
+
 
 // Detect a collision of two box objects
 function boxOverlap(obj1, obj2) {

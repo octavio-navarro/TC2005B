@@ -20,12 +20,13 @@ let game;
 // Variable to store the time at the previous frame
 let oldTime;
 
-let playerSpeed = 1.0;
+let playerSpeed = 0.5;
+let animationDelay = 200;
 
 // Class for the main character in the game
-class Player extends GameObject {
-    constructor(position, width, height, color) {
-        super(position, width, height, color, "player");
+class Player extends AnimatedObject {
+    constructor(position, width, height, color, sheetCols) {
+        super(position, width, height, color, "player", sheetCols);
         this.velocity = new Vec(0, 0);
     }
 
@@ -41,6 +42,7 @@ class Player extends GameObject {
         } else if (this.position.x + this.width > canvasWidth) {
             this.position.x = canvasWidth - this.width;
         }
+        this.updateFrame(deltaTime);
     }
 }
 
@@ -53,10 +55,11 @@ class Game {
     }
 
     initObjects() {
-        this.player = new Player(new Vec(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
+        this.player = new Player(new Vec(canvasWidth / 2, canvasHeight / 2), 60, 60, "red", 3);
         //this.player.setSprite('../assets/sprites/link_front.png')
-        //this.player.setSprite('../assets/sprites/blordrough_quartermaster-NESW.png',
-        //                      new Rect(0, 0, 48, 64));
+        this.player.setSprite('../assets/sprites/blordrough_quartermaster-NESW.png',
+                              new Rect(48, 128, 48, 64));
+        this.player.setAnimation(1, 1, false, animationDelay);
         this.actors = [];
     }
 
@@ -78,24 +81,32 @@ class Game {
         window.addEventListener('keydown', (event) => {
             if (event.key == 'w') {
                 this.player.velocity.y = -playerSpeed;
+                this.player.setAnimation(0, 2, true, animationDelay);
             } else if (event.key == 'a') {
                 this.player.velocity.x = -playerSpeed;
+                this.player.setAnimation(9, 11, true, animationDelay);
             } else if (event.key == 's') {
                 this.player.velocity.y = playerSpeed;
+                this.player.setAnimation(6, 8, true, animationDelay);
             } else if (event.key == 'd') {
                 this.player.velocity.x = playerSpeed;
+                this.player.setAnimation(3, 5, true, animationDelay);
             }
         });
 
         window.addEventListener('keyup', (event) => {
             if (event.key == 'w') {
                 this.player.velocity.y = 0;
+                this.player.setAnimation(1, 1, false, animationDelay);
             } else if (event.key == 'a') {
                 this.player.velocity.x = 0;
+                this.player.setAnimation(10, 10, false, animationDelay);
             } else if (event.key == 's') {
                 this.player.velocity.y = 0;
+                this.player.setAnimation(7, 7, false, animationDelay);
             } else if (event.key == 'd') {
                 this.player.velocity.x = 0;
+                this.player.setAnimation(4, 4, false, animationDelay);
             }
         });
     }
