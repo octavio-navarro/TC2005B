@@ -167,3 +167,7 @@ function boxOverlap(obj1, obj2) {
            obj1.position.y + obj1.height > obj2.position.y &&
            obj1.position.y < obj2.position.y + obj2.height;
 }
+
+function randomRange(size, start) {
+    return Math.floor(Math.random() * size) + ((start === undefined) ? 0 : start);
+}
