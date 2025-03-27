@@ -45,15 +45,7 @@ function drawScene() {
     ctx.fillRect(box.x, box.y, box.size, box.size);
 
     // Update the properties of the object
-    box.x += box.speed * box.direction;
-
-    if (box.x > canvasWidth - box.size) {
-        box.direction = -1;
-        box.speed += 0.1;
-    } else if (box.x < 0) {
-        box.direction = 1;
-        box.speed += 0.1;
-    }
+    //box.x += box.speed * box.direction;
 
     requestAnimationFrame(drawScene);
 }
