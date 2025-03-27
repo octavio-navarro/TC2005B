@@ -59,8 +59,10 @@ class Player extends GameObject {
         for (const direction of this.keys) {
             const axis = this.motion[direction].axis;
             const sign = this.motion[direction].sign;
-            this.velocity[axis] += playerSpeed * sign;
+            this.velocity[axis] += sign;
         }
+        // Normalize the velocity to avoid greater speed on diagonals
+        this.velocity = this.velocity.normalize().times(playerSpeed);
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
         this.clampWithinCanvas();
@@ -92,11 +94,7 @@ class Game {
 
         this.actors = [];
         for (let i=0; i<10; i++) {
-            const size = randomRange(50, 50);
-            const posX = randomRange(canvasWidth - size);
-            const posY = randomRange(canvasHeight - size);
-            const box = new GameObject(new Vec(posX, posY), size, size, "grey");
-            this.actors.push(box);
+            this.addBox();
         }
     }
 
@@ -119,6 +117,16 @@ class Game {
                 actor.color = "grey";
             }
         }
+    }
+
+    addBox() {
+        // Create boxes with minimum size 50, and up to 50 pixels more
+        const size = randomRange(50, 50);
+        const posX = randomRange(canvasWidth - size);
+        const posY = randomRange(canvasHeight - size);
+        const box = new GameObject(new Vec(posX, posY), size, size, "grey");
+        box.destroy = false;
+        this.actors.push(box);
     }
 
     createEventListeners() {

@@ -26,6 +26,14 @@ class Vec {
     magnitude() {
         return Math.sqrt(this.x ** 2 + this.y ** 2);
     }
+
+    normalize() {
+        const mag = this.magnitude();
+        if (mag == 0) {
+            return new Vec(0, 0);
+        }
+        return new Vec(this.x / mag, this.y / mag);
+    }
 }
 
 
