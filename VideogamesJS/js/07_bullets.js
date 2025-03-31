@@ -129,6 +129,22 @@ class Bullet extends GameObject {
             this.destroy = true;
         }
     }
+
+    // Override the parent's draw method
+    draw(ctx) {
+        // Store the current transformation matrix
+        ctx.save();
+        // Apply the required rotation around the bullet center
+        ctx.translate(this.position.x, this.position.y);
+        ctx.rotate(this.angle);
+        ctx.translate(-this.position.x, -this.position.y);
+        // Draw the bullet
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.position.x, this.position.y,
+                     this.width, this.height);
+        // Recover any previous transformations
+        ctx.restore();
+    }
 }
 
 
@@ -242,12 +258,10 @@ class Game {
                 const canY = event.clientY - rect.top;
 
                 // Create a new bullet
-                const bullet = new Bullet(game.player.position, 16, 16, "blue");
-                bullet.setVelocity(canX, canY);
-                game.playerBullets.push(bullet);
+                this.addBullet(canX, canY);
             }
 
-        })
+        });
     }
 
     // Add directions to the keys array for character movement
@@ -262,6 +276,13 @@ class Game {
         if (this.player.keys.includes(direction)) {
             this.player.keys.splice(this.player.keys.indexOf(direction), 1);
         }
+    }
+
+    // Instantiate a new bullet
+    addBullet(clickX, clickY) {
+        const bullet = new Bullet(game.player.position, 20, 6, "blue");
+        bullet.setVelocity(clickX, clickY);
+        game.playerBullets.push(bullet);
     }
 }
 
