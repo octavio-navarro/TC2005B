@@ -59,30 +59,18 @@ canvas {
     margin: 10px;
 }
 
-#uiContainer {
-  position: absolute;
-  top: 15vh;
-  right: 5vw;
-  z-index: 3;
-  font-family: monospace;
-  pointer-events: none;
-  padding: 1em;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 1em;
-  border: 1px solid turquoise;
 
-  text-shadow:
-   -1px -1px 0 #FFF,
-    1px -1px 0 #FFF,
-    -1px 1px 0 #FFF,
-     1px 1px 0 #FFF;
+#examplesContainer{
+  margin: 1em;
+  display:flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
-#ui {
-  opacity: 0.8;
-}
-#ui>div {
-  pointer-events: none;
-}
-#ui input, #ui select, #ui option, #ui canvas {
-  pointer-events: auto;
+
+.exampleGroup{
+  margin: 0.5em;
+  padding: 1em;
+  max-width: 40vw;
+  border: 1px solid black;
+  border-radius: 20px;
 }
