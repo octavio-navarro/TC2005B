@@ -137,7 +137,8 @@ class Level {
                     // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
 
-                    actor.setSprite(item.sprite, item.rect);
+                    let instanceRect = new Rect(...item.rectParams);
+                    actor.setSprite(item.sprite, instanceRect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.player = actor;
@@ -146,22 +147,24 @@ class Level {
                     // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
 
-                    actor.setSprite(item.sprite, item.rect);
+                    // Need to create a new instance of Rect for each item
+                    let instanceRect = new Rect(...item.rectParams);
+                    actor.setSprite(item.sprite, instanceRect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
                     cellType = "empty";
                 } else if (actor.type == "wall") {
                     // Randomize sprites for each wall tile
-                    item.rect = this.randomTile(31, 10, 17);     // green broken bricks
-                    // item.rect = this.randomTile(2, 3, 19);     // green broken bricks
-                    actor.setSprite(item.sprite, item.rect);
+                    let instanceRect = this.randomTile(31, 10, 17);     // green broken bricks
+                    //let instanceRect = this.randomTile(2, 3, 19);     // green broken bricks
+                    actor.setSprite(item.sprite, instanceRect);
                     this.actors.push(actor);
                     cellType = "wall";
                 } else if (actor.type == "floor") {
                     // Randomize sprites for each wall tile
-                    item.rect = this.randomTile(11, 4, 17);     // beige dirt
-                    actor.setSprite(item.sprite, item.rect);
+                    let instanceRect = this.randomTile(11, 4, 17);     // beige dirt
+                    actor.setSprite(item.sprite, instanceRect);
                     this.actors.push(actor);
                     cellType = "floor";
                 }
@@ -173,8 +176,8 @@ class Level {
     addBackgroundFloor(x, y) {
         let floor = levelChars['.'];
         let floorActor = new GameObject("grey", 1, 1, x, y, floor.label);
-        floor.rect = this.randomTile(11, 4, 17);     // beige dirt
-        floorActor.setSprite(floor.sprite, floor.rect);
+        let instanceRect = this.randomTile(11, 4, 17);     // beige dirt
+        floorActor.setSprite(floor.sprite, instanceRect);
         this.actors.push(floorActor);
     }
 
@@ -262,25 +265,25 @@ const levelChars = {
     ".": {objClass: GameObject,
           label: "floor",
           sprite: '../assets/sprites/ProjectUtumno_full.png',
-          rect: new Rect(12, 17, 32, 32)},
+          rectParams: [12, 17, 32, 32]},
     "#": {objClass: GameObject,
           label: "wall",
           sprite: '../assets/sprites/ProjectUtumno_full.png',
-          rect: new Rect(2, 19, 32, 32)},
+          rectParams: [2, 19, 32, 32]},
     "@": {objClass: Player,
           label: "player",
           //sprite: '../assets/sprites/blordrough_quartermaster-NESW.png',
-          //rect: new Rect(0, 0, 48, 64),
+          //rectParams: [0, 0, 48, 64],
           //sheetCols: 3,
           //startFrame: [7, 7]},
           sprite: '../assets/sprites/link_sprite_sheet.png',
-          rect: new Rect(0, 0, 120, 130),
+          rectParams: [0, 0, 120, 130],
           sheetCols: 10,
           startFrame: [0, 0]},
     "$": {objClass: Coin,
           label: "collectible",
           sprite: '../assets/sprites/coin_gold.png',
-          rect: new Rect(0, 0, 32, 32),
+          rectParams: [0, 0, 32, 32],
           sheetCols: 8,
           startFrame: [0, 7]},
 };

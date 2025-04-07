@@ -225,7 +225,8 @@ class Level {
                     actor.position = actor.position.plus(new Vec(0, -3));
                     actor.size = new Vec(3, 3);
 
-                    actor.setSprite(item.sprite, item.rect);
+                    let instanceRect = new Rect(...item.rectParams);
+                    actor.setSprite(item.sprite, instanceRect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, false, 100);
                     this.player = actor;
@@ -234,18 +235,21 @@ class Level {
                     // Also instantiate a floor tile below the player
                     this.addBackgroundFloor(x, y);
 
-                    actor.setSprite(item.sprite, item.rect);
+                    // Need to create a new instance of Rect for each item
+                    let instanceRect = new Rect(...item.rectParams);
+                    actor.setSprite(item.sprite, instanceRect);
                     actor.sheetCols = item.sheetCols;
                     actor.setAnimation(...item.startFrame, true, 100);
                     this.actors.push(actor);
                     cellType = "empty";
                 } else if (actor.type == "wall") {
                     // Randomize sprites for each wall tile
-                    item.rect = this.randomEvironment(rnd);
-                    actor.setSprite(item.sprite, item.rect);
+                    let instanceRect = this.randomEvironment(rnd);
+                    actor.setSprite(item.sprite, instanceRect);
                     this.actors.push(actor);
                     cellType = "wall";
                 } else if (actor.type == "floor") {
+                    //let instanceRect = new Rect(item.rectParams);
                     //actor.setSprite(item.sprite, item.rect);
                     this.actors.push(actor);
                     cellType = "floor";
@@ -258,7 +262,8 @@ class Level {
     addBackgroundFloor(x, y) {
         let floor = levelChars['.'];
         let floorActor = new GameObject("skyblue", 1, 1, x, y, floor.label);
-        //floorActor.setSprite(floor.sprite, floor.rect);
+        //let instanceRect = new Rect(item.rectParams);
+        //floorActor.setSprite(floor.sprite, instanceRect);
         this.actors.push(floorActor);
     }
 
@@ -368,21 +373,21 @@ const levelChars = {
     ".": {objClass: GameObject,
           label: "floor",
           sprite: '../assets/sprites/ProjectUtumno_full.png',
-          rect: new Rect(12, 17, 32, 32)},
+          rectParams: [12, 17, 32, 32]},
     "#": {objClass: GameObject,
           label: "wall",
           sprite: '../assets/sprites/ProjectUtumno_full.png',
-          rect: new Rect(1, 6, 32, 32)},
+          rectParams: [1, 6, 32, 32]},
     "@": {objClass: Player,
           label: "player",
           sprite: '../assets/sprites/hero/redpants_left_right.png',
-          rect: new Rect(0, 0, 46, 50),
+          rectParams: [0, 0, 46, 50],
           sheetCols: 8,
           startFrame: [0, 0]},
     "$": {objClass: Coin,
           label: "collectible",
           sprite: '../assets/sprites/coin_gold.png',
-          rect: new Rect(0, 0, 32, 32),
+          rectParams: [0, 0, 32, 32],
           sheetCols: 8,
           startFrame: [0, 7]},
 };
