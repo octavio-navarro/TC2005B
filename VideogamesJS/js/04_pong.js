@@ -2,7 +2,7 @@
  * Implementation of the game of Pong
  *
  * Gilberto Echeverria
- * 2025-02-25
+ * 2025-04-07
  */
 
 "use strict";
