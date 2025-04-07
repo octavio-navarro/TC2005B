@@ -14,14 +14,14 @@ const canvasHeight = 600;
 // Context of the Canvas
 let ctx;
 
+let oldTime;
+
 // An object to represent the box to be displayed
 const box = {
     color: "red",
     size: 200,
-    x: 0,
-    y: canvasHeight / 2,
-    direction: 1,
-    speed: 2.0,
+    position: new Vec(0, canvasHeight / 2),
+    speed: new Vec(0.3, 0.2), // pixels per millisecond
 }
 
 function main() {
@@ -33,27 +33,33 @@ function main() {
     // Get the context for drawing in 2D
     ctx = canvas.getContext('2d');
 
-    drawScene();
+    drawScene(0);
 }
 
-function drawScene() {
+function drawScene(newTime) {
+    if (oldTime == undefined) {
+        oldTime = newTime;
+    }
+    let deltaTime = newTime - oldTime;
+
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     // Draw a square
     ctx.fillStyle = box.color;
-    ctx.fillRect(box.x, box.y, box.size, box.size);
+    ctx.fillRect(box.position.x, box.position.y, box.size, box.size);
 
     // Update the properties of the object
-    box.x += box.speed * box.direction;
+    //box.x += box.speed * box.direction * deltaTime;
+    box.position = box.position.plus(box.speed.times(deltaTime));
 
-    if (box.x > canvasWidth - box.size) {
-        box.direction = -1;
-        box.speed += 0.1;
-    } else if (box.x < 0) {
-        box.direction = 1;
-        box.speed += 0.1;
+    if (box.position.x + box.size >= canvasWidth || box.position.x < 0) {
+        box.speed.x *= -1;
+    }
+    if (box.position.y + box.size >= canvasHeight || box.position.y < 0) {
+        box.speed.y *= -1;
     }
 
+    oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
