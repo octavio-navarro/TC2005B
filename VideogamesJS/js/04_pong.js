@@ -30,9 +30,7 @@ class Ball extends GameObject {
     constructor(position, width, height, color) {
         // Call the parent's constructor
         super(position, width, height, color, "ball");
-
-        // ONLY TEMPORARY
-        this.velocity = new Vec(initialSpeed, initialSpeed);
+        this.reset();
     }
 
     update(deltaTime) {
@@ -41,11 +39,19 @@ class Ball extends GameObject {
     }
 
     initVelocity() {
-
+        // Define a random angle in the range [-45⁰, 45⁰]
+        const angle = Math.random() * Math.PI / 2 - Math.PI / 4;
+        // Obtain the direction of the ball movement
+        this.velocity = new Vec(Math.cos(angle), Math.sin(angle)).times(initialSpeed);
+        // Randomly select a direction (left or right)
+        this.velocity.x *= Math.random() > 0.5 ? 1 : -1;
+        this.inPlay = true;
     }
 
     reset() {
-
+        this.position = new Vec(canvasWidth / 2, canvasHeight / 2);
+        this.velocity = new Vec(0, 0);
+        this.inPlay = false;
     }
 }
 
@@ -83,6 +89,9 @@ class Game {
         this.goalLeft = new GameObject(new Vec(0, 0), 10, canvasHeight, "white", "goal");
         this.goalRight = new GameObject(new Vec(canvasWidth-10, 0), 10, canvasHeight, "white", "goal");
 
+        this.scoreLeft = new TextLabel(new Vec(200, 100), "30px Arial", "white");
+        this.scoreRight = new TextLabel(new Vec(600, 100), "30px Arial", "white");
+
         this.pointsLeft = 0;
         this.pointsRight = 0;
 
@@ -106,11 +115,13 @@ class Game {
 
         if (boxOverlap(this.ball, this.goalLeft)) {
             this.pointsRight += 1;
+            this.ball.reset();
             console.log(`Score ${this.pointsLeft}, ${this.pointsRight}`);
         }
 
         if (boxOverlap(this.ball, this.goalRight)) {
             this.pointsLeft += 1;
+            this.ball.reset();
             console.log(`Score ${this.pointsLeft}, ${this.pointsRight}`);
         }
     }
@@ -118,6 +129,10 @@ class Game {
     draw(ctx) {
         // Draw all objects in the game
         // Draw from back to front, so objects are not overpainted
+        this.scoreLeft.draw(ctx, `${this.pointsLeft}`);
+        this.scoreRight.draw(ctx, `${this.pointsRight}`);
+        this.goalLeft.draw(ctx);
+        this.goalRight.draw(ctx);
         this.topBorder.draw(ctx);
         this.bottomBorder.draw(ctx);
         this.paddleLeft.draw(ctx);
@@ -154,6 +169,12 @@ class Game {
             }
             if (event.key === "l") {
                 this.paddleRight.velocity.y = 0;
+            }
+
+            if (event.key == " ") {
+                if (!this.ball.inPlay) {
+                    this.ball.initVelocity();
+                }
             }
         });
     }
