@@ -26,6 +26,14 @@ class Vec {
     magnitude() {
         return Math.sqrt(this.x ** 2 + this.y ** 2);
     }
+
+    normalize() {
+        const mag = this.magnitude();
+        if (mag == 0) {
+            return new Vec(0, 0);
+        }
+        return new Vec(this.x / mag, this.y / mag);
+    }
 }
 
 
@@ -166,4 +174,8 @@ function boxOverlap(obj1, obj2) {
            obj1.position.x < obj2.position.x + obj2.width &&
            obj1.position.y + obj1.height > obj2.position.y &&
            obj1.position.y < obj2.position.y + obj2.height;
+}
+
+function randomRange(size, start) {
+    return Math.floor(Math.random() * size) + ((start === undefined) ? 0 : start);
 }

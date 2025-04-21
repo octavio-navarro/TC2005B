@@ -44,8 +44,8 @@ function drawScene() {
     drawAxes();
 
     // Update the offset to rotate around the center
-    let offsetX = radius * Math.cos(angle);
-    let offsetY = radius * Math.sin(angle);
+    let offsetX = 0;
+    let offsetY = 0;
 
 
     // Draw the axis
@@ -54,8 +54,6 @@ function drawScene() {
 
     // Update vales for next frame
     angle += 0.1;
-
-
 
     requestAnimationFrame(drawScene);
 }

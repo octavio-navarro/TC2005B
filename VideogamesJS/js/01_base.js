@@ -29,10 +29,19 @@ function main() {
     ctx.fillStyle = "red";
     ctx.fillRect(canvasWidth / 2, canvasHeight / 2, boxSize, boxSize);
 
-    // Draw an ellipse or circle
+    // Draw an ellipse
+    ctx.beginPath();
     ctx.fillStyle = "yellow";
     ctx.strokeStyle = "green";
     ctx.ellipse(400, 300, 60, 30, Math.PI/4, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw a circle
+    ctx.beginPath();
+    ctx.fillStyle = "pink";
+    ctx.strokeStyle = "black";
+    ctx.ellipse(100, 100, 30, 30, 0, 0, Math.PI * 1.5, false);
     ctx.fill();
     ctx.stroke();
 }
