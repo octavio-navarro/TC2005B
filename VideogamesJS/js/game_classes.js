@@ -26,6 +26,14 @@ class Vec {
     magnitude() {
         return Math.sqrt(this.x ** 2 + this.y ** 2);
     }
+
+    normalize() {
+        const mag = this.magnitude();
+        if (mag == 0) {
+            return new Vec(0, 0);
+        }
+        return new Vec(this.x / mag, this.y / mag);
+    }
 }
 
 
@@ -58,10 +66,6 @@ class GameObject {
         this.height = height;
         this.color = color;
         this.type = type;
-
-        // Sprite properties
-        this.spriteImage = undefined;
-        this.spriteRect = undefined;
     }
 
     setSprite(imagePath, rect) {
@@ -94,6 +98,17 @@ class GameObject {
             ctx.fillRect(this.position.x, this.position.y,
                          this.width, this.height);
         }
+
+        this.drawBoundingBox(ctx);
+    }
+
+    drawBoundingBox(ctx) {
+        // Draw the bounding box of the sprite
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.rect(this.position.x, this.position.y,
+                 this.width, this.height);
+        ctx.stroke();
     }
 
     // Empty template for all GameObjects to be able to update
@@ -122,6 +137,7 @@ class AnimatedObject extends GameObject {
     }
 
     setAnimation(minFrame, maxFrame, repeat, duration) {
+        //console.log(`Setting animation to ${minFrame}, ${maxFrame}`);
         this.minFrame = minFrame;
         this.maxFrame = maxFrame;
         this.frame = minFrame;

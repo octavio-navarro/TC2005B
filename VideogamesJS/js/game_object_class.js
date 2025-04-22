@@ -17,9 +17,24 @@ class GameObject {
     draw(ctx) {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+        this.drawBoundingBox(ctx);
+    }
+
+    drawBoundingBox(ctx) {
+        // Draw the bounding box of the sprite
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.rect(this.position.x, this.position.y,
+                 this.width, this.height);
+        ctx.stroke();
     }
 
     update(deltaTime) {
+
+    }
+
+    setSprite() {
 
     }
 }
