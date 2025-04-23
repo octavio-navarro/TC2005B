@@ -15,13 +15,27 @@ class GameObject {
     }
 
     draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        if (this.spriteImage) {
+            if (this.spriteRect) {
+                ctx.drawImage(this.spriteImage,
+                              this.spriteRect.x, this.spriteRect.y,
+                              this.spriteRect.width, this.spriteRect.height,
+                              this.position.x, this.position.y,
+                              this.width, this.height);
+            } else {
+                ctx.drawImage(this.spriteImage,
+                              this.position.x, this.position.y,
+                              this.width, this.height);
+            }
+        } else {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        }
 
         this.drawBoundingBox(ctx);
     }
 
-    drawBoundingBox(ctx) {
+   drawBoundingBox(ctx) {
         // Draw the bounding box of the sprite
         ctx.strokeStyle = "red";
         ctx.beginPath();
@@ -34,9 +48,15 @@ class GameObject {
 
     }
 
-    setSprite() {
-
+    // Create an image to be drawn for the object
+    setSprite(imagePath, rect) {
+        this.spriteImage = new Image();
+        this.spriteImage.src = imagePath;
+        if (rect) {
+            this.spriteRect = rect;
+        }
     }
+
 }
 
 function boxOverlap(rect1, rect2) {

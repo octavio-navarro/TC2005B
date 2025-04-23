@@ -101,7 +101,8 @@ class Game {
 
     initObjects() {
         this.player = new Player(new Vec(canvasWidth / 2, canvasHeight / 2), 60, 60, "green", 3);
-        //this.player.setSprite('../assets/sprites/link_front.png')
+        this.player.setSprite('../assets/sprites/rogue_spritesheet_calciumtrice.png',
+                               new Rect(64, 64, 32, 32));
         //this.player.setSprite('../assets/sprites/blordrough_quartermaster-NESW.png',
         //                      new Rect(48, 128, 48, 64));
         this.actors = [];
