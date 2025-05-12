@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+h1, h2 {
+    color: #333;
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Headings */
+h1, h2 {
+    color: #2c3e50;
+}
+
+/* Code Styles */
+code {
+    background-color: #e8e8e8;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+}
+
+/* Preformatted Text */
+pre {
+    background-color: #e8e8e8;
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+}
+
+/* Lists */
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+/* Paragraphs */
+p {
+    margin: 10px 0;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
