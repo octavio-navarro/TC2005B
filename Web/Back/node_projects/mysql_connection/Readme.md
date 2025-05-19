@@ -52,7 +52,7 @@ You can then execute SQL queries using the connection object. For example, to ex
 
 ```javascript
 connection = await connectToDB();
-const [results, fields] = await connection.execute("select * from card");
+const [results, fields] = await connection.query("select * from card");
 
 console.log(`${results.length} rows returned`);
 console.log(results);

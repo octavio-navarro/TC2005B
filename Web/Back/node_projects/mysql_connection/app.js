@@ -26,9 +26,9 @@ async function connectToDB() {
 
 // Routes definition and handling
 
-// A try statement allows you to define a block of code to be tested for errors while it is being executed. If an error is thrown, the try statement will catch it.
-// The catch statement allows you to define a block of code to be executed, if an error occurs in the try block.
-// The finally statement lets you execute code, after try and catch, regardless of the result.
+// A try statement allows you to define a block of code to be tested for errors while it is being.queryd. If an error is thrown, the try statement will catch it.
+// The catch statement allows you to define a block of code to be.queryd, if an error occurs in the try block.
+// The finally statement lets you.query code, after try and catch, regardless of the result.
 
 app.get("/", async (req, res)=>{
   res.status(200).send("ADAD")
@@ -44,8 +44,8 @@ app.get("/api/cards", async (request, response) => {
 
     connection = await connectToDB();
 
-    // The execute method is used to execute a SQL query. It returns a Promise that resolves with an array containing the results of the query (results) and an array containing the metadata of the results (fields).
-    const [results, fields] = await connection.execute("select * from card");
+    // The.query method is used to execute a SQL query. It returns a Promise that resolves with an array containing the results of the query (results) and an array containing the metadata of the results (fields).
+    const [results, fields] = await connection.query("select * from card");
 
     console.log(`${results.length} rows returned`);
     console.log(results);
@@ -57,7 +57,7 @@ app.get("/api/cards", async (request, response) => {
     console.log(error);
   }
   finally {
-    // The finally statement lets you execute code, after try and catch, regardless of the result. In this case, it closes the connection to the database.
+    // The finally statement lets you.query code, after try and catch, regardless of the result. In this case, it closes the connection to the database.
     // Closing the connection is important to avoid memory leaks and to free up resources.
     if (connection !== null) {
       connection.end();
@@ -74,7 +74,7 @@ app.get("/api/cards/:id", async (request, response) => {
     connection = await connectToDB();
 
     // The ? character is used as a placeholder for the values that will be passed to the query. This is a security measure to avoid SQL injection attacks.
-    const [results, fields] = await connection.execute(
+    const [results, fields] = await connection.query(
       "select * from card where card_id = ?",
       [request.params.id]
     );
@@ -114,7 +114,7 @@ app.post("/api/cards", async (request, response) => {
     for (const card of data) {
 
       // You can pass several values to the query by using an array of values. The values will be replaced in the query in the same order as they appear in the array.
-      const [results, fields] = await connection.execute(
+      const [results, fields] = await connection.query(
         "insert into card (card_name, card_description, card_type, card_cost, card_rarity, card_target) values (?, ?, ?, ?, ?, ?)",
         [
           card.card_name,
@@ -152,7 +152,7 @@ app.put("/api/cards/:id", async (request, response) => {
 
     const data = request.body;
 
-    const [results, fields] = await connection.execute(
+    const [results, fields] = await connection.query(
       "update card set card_name=?, card_description=?, card_type=?, card_cost=?, card_rarity=?, card_target=? where card_id=?",
       [
         data.card_name,
@@ -188,7 +188,7 @@ app.delete("/api/cards/:id", async (request, response) => {
   try {
     connection = await connectToDB();
 
-    const [results, fields] = await connection.execute(
+    const [results, fields] = await connection.query(
       "delete from card where card_id = ?",
       [request.params.id]
     );
