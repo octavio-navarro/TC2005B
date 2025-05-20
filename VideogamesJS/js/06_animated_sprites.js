@@ -92,11 +92,11 @@ class Player extends AnimatedObject {
     constrainToCanvas() {
         if (this.position.y < 0) {
             this.position.y = 0;
-        } else if (this.position.y + this.height > canvasHeight) {
+        } if (this.position.y + this.height > canvasHeight) {
             this.position.y = canvasHeight - this.height;
-        } else if (this.position.x < 0) {
+        } if (this.position.x < 0) {
             this.position.x = 0;
-        } else if (this.position.x + this.width > canvasWidth) {
+        } if (this.position.x + this.width > canvasWidth) {
             this.position.x = canvasWidth - this.width;
         }
     }

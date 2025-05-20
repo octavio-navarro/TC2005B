@@ -92,6 +92,19 @@ class Game {
         this.scoreLeft = new TextLabel(new Vec(200, 100), "30px Arial", "white");
         this.scoreRight = new TextLabel(new Vec(600, 100), "30px Arial", "white");
 
+        this.pongSFX = document.createElement("audio");
+        this.pongSFX.src = "../assets/sfx/Pop.ogg";
+
+        this.scoreSFX = document.createElement("audio");
+        this.scoreSFX.src = "../assets/sfx/Score.ogg";
+
+        this.music = document.createElement("audio");
+        this.music.src = "../assets/music/battleThemeA.mp3";
+        this.music.addEventListener("ended", function() {
+            this.currentTime = 0;
+            this.play();
+        });
+
         this.pointsLeft = 0;
         this.pointsRight = 0;
 
@@ -103,26 +116,32 @@ class Game {
         this.paddleRight.update(deltaTime);
         this.ball.update(deltaTime);
 
+        // Collision with the paddles
         if (boxOverlap(this.ball, this.paddleRight) ||
             boxOverlap(this.ball, this.paddleLeft)) {
             this.ball.velocity.x *= -1;
+            this.pongSFX.play();
         }
 
+        // Collision with the walls
         if (boxOverlap(this.ball, this.topBorder) ||
             boxOverlap(this.ball, this.bottomBorder)) {
             this.ball.velocity.y *= -1;
+            this.pongSFX.play();
         }
 
         if (boxOverlap(this.ball, this.goalLeft)) {
             this.pointsRight += 1;
             this.ball.reset();
             console.log(`Score ${this.pointsLeft}, ${this.pointsRight}`);
+            this.scoreSFX.play();
         }
 
         if (boxOverlap(this.ball, this.goalRight)) {
             this.pointsLeft += 1;
             this.ball.reset();
             console.log(`Score ${this.pointsLeft}, ${this.pointsRight}`);
+            this.scoreSFX.play();
         }
     }
 
@@ -174,6 +193,7 @@ class Game {
             if (event.key == " ") {
                 if (!this.ball.inPlay) {
                     this.ball.initVelocity();
+                    this.music.play();
                 }
             }
         });
