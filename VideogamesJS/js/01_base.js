@@ -25,6 +25,10 @@ function main() {
     // Get the context for drawing in 2D
     ctx = canvas.getContext('2d');
 
+    draw();
+}
+
+function draw() {
     // Draw a square
     ctx.fillStyle = "red";
     ctx.fillRect(canvasWidth / 2, canvasHeight / 2, boxSize, boxSize);
@@ -41,7 +45,32 @@ function main() {
     ctx.beginPath();
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "black";
-    ctx.ellipse(100, 100, 30, 30, 0, 0, Math.PI * 1.5, false);
+    ctx.ellipse(100, 400, 30, 30, 0, 0, Math.PI * 1.5, false);
     ctx.fill();
+    ctx.stroke();
+
+    house();
+
+    requestAnimationFrame(draw);
+}
+
+function house() {
+    // Set line width
+    ctx.lineWidth = 10;
+
+    ctx.fillStyle = "black";
+
+    // Wall
+    ctx.strokeRect(75, 140, 150, 110);
+
+    // Door
+    ctx.fillRect(130, 190, 40, 60);
+
+    // Roof
+    ctx.beginPath();
+    ctx.moveTo(50, 140);
+    ctx.lineTo(150, 60);
+    ctx.lineTo(250, 140);
+    ctx.closePath();
     ctx.stroke();
 }
