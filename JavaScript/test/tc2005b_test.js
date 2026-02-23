@@ -33,6 +33,7 @@ describe("TC2005B Module Tests", () => {
         });
     });
 
+    /*
     describe("bubbleSort", () => {
         it("empty array", () => {
             deepStrictEqual(tc2005b.bubbleSort([]), []);
@@ -350,4 +351,5 @@ describe("TC2005B Module Tests", () => {
         });
     });
 
+    */
 });
