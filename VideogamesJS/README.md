@@ -5,6 +5,10 @@
 - https://www.lessmilk.com/
 - https://eloquentjavascript.net/16_game.html
 
+## JavaScript Canvas function documentation
+
+- https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
 ## Game techniques
 
 - Sprite animation: https://www.youtube.com/watch?v=1bj7g6sXit8
