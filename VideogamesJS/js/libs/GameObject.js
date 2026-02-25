@@ -56,19 +56,23 @@ class GameObject {
 
     setCollider(width, height) {
         // The top left corner of the collider is offset by half of its size
-        this.xOffset = width / 2;
-        this.yOffset = height / 2;
-        this.colliderWidth = width;
-        this.colliderHeight = height;
+        // TODO: Provide the correct values for the collider rectangle
+        // Use the scale as well
+        this.xOffset = 0;
+        this.yOffset = 0;
+        this.colliderWidth = 10;
+        this.colliderHeight = 10;
         this.updateCollider();
     }
 
     updateCollider() {
         // Adjust the Rect of the object with its position
-        this.collider = new Rect(this.position.x - this.xOffset * this.scale,
-                                 this.position.y - this.yOffset * this.scale,
-                                 this.colliderWidth * this.scale,
-                                 this.colliderHeight * this.scale);
+        // TODO: Center the collider around the object position
+        // Use the scale as well
+        this.collider = new Rect(5,
+                                 5,
+                                 15,
+                                 15);
     }
 
     draw(ctx) {
