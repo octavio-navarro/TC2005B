@@ -44,6 +44,7 @@ function drawScene() {
     drawAxes();
 
     // Update the offset to rotate around the center
+    // TODO: Set different coordinates for the center of rotation
     let offsetX = 0;
     let offsetY = 0;
 
@@ -54,6 +55,7 @@ function drawScene() {
 
     // Update vales for next frame
     angle += 0.1;
+    // TODO: Use mathematical functions to set the actual position of the object
 
     requestAnimationFrame(drawScene);
 }

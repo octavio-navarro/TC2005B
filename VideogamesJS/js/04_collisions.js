@@ -26,7 +26,7 @@ let playerSpeed = 0.5;
 class Player extends GameObject {
     constructor(position, width, height, color, sheetCols) {
         super(position, width, height, color, "player", sheetCols);
-        this.velocity = new Vec(0, 0);
+        this.velocity = new Vector(0, 0);
     }
 
     update(deltaTime) {
@@ -57,12 +57,12 @@ class Game {
     }
 
     initObjects() {
-        this.player = new Player(new Vec(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
+        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
 
         this.actors = [];
-        const box1 = new GameObject(new Vec(300, 300), 80, 80, "grey");
+        const box1 = new GameObject(new Vector(300, 300), 80, 80, "grey");
         this.actors.push(box1);
-        const box2 = new GameObject(new Vec(600, 500), 80, 80, "grey");
+        const box2 = new GameObject(new Vector(600, 500), 80, 80, "grey");
         this.actors.push(box2);
     }
 
@@ -136,10 +136,9 @@ function main() {
 
 // Main loop function to be called once per frame
 function drawScene(newTime) {
-    if (oldTime == undefined) {
-        oldTime = newTime;
-    }
-    let deltaTime = newTime - oldTime;
+    // Compute the time elapsed since the last frame, in milliseconds
+    // TODO: Compute the correct value for deltaTime, using newTime and oldTime
+    let deltaTime = 1;
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);

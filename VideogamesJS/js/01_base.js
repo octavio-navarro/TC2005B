@@ -51,6 +51,8 @@ function draw() {
 
     house();
 
+    // TODO: Make different shapes using the canvas 2d functions
+
     requestAnimationFrame(draw);
 }
 
