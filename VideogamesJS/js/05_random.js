@@ -26,7 +26,7 @@ let playerSpeed = 0.5;
 class Player extends GameObject {
     constructor(position, width, height, color, sheetCols) {
         super(position, width, height, color, "player", sheetCols);
-        this.velocity = new Vec(0, 0);
+        this.velocity = new Vector(0, 0);
 
         this.motion = {
             up: {
@@ -61,8 +61,8 @@ class Player extends GameObject {
             const sign = this.motion[direction].sign;
             this.velocity[axis] += sign;
         }
-        // Normalize the velocity to avoid greater speed on diagonals
-        this.velocity = this.velocity.normalize().times(playerSpeed);
+        // TODO: Normalize the velocity to avoid greater speed on diagonals
+
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
         this.clampWithinCanvas();
@@ -90,7 +90,7 @@ class Game {
     }
 
     initObjects() {
-        this.player = new Player(new Vec(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
+        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
 
         this.actors = [];
         for (let i=0; i<10; i++) {
@@ -120,11 +120,14 @@ class Game {
     }
 
     addBox() {
+        // TODO: Use the randomRange function to make these values different
         // Create boxes with minimum size 50, and up to 50 pixels more
-        const size = randomRange(50, 50);
-        const posX = randomRange(canvasWidth - size);
-        const posY = randomRange(canvasHeight - size);
-        const box = new GameObject(new Vec(posX, posY), size, size, "grey");
+        const size = 50;
+        // Define a random position for the box, within the canvas
+        const posX = 60;
+        const posY = 70;
+        const box = new GameObject(new Vector(posX, posY), size, size, "grey");
+        // Set a property to indicate if the box should be destroyed or not
         box.destroy = false;
         this.actors.push(box);
     }
@@ -188,10 +191,8 @@ function main() {
 
 // Main loop function to be called once per frame
 function drawScene(newTime) {
-    if (oldTime == undefined) {
-        oldTime = newTime;
-    }
-    let deltaTime = newTime - oldTime;
+    // Compute the time elapsed since the last frame, in milliseconds
+    let deltaTime = 1;
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);

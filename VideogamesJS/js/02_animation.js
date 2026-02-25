@@ -47,5 +47,8 @@ function drawScene() {
     // Update the properties of the object
     //box.x += box.speed * box.direction;
 
+    // TODO: Make the box move in X and Y axis
+    // TODO: Make the box bounce off the walls
+
     requestAnimationFrame(drawScene);
 }
