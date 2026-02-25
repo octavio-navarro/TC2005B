@@ -50,10 +50,47 @@ function draw() {
     ctx.stroke();
 
     house();
+    drawBunny();
 
     // TODO: Make different shapes using the canvas 2d functions
 
     requestAnimationFrame(draw);
+}
+
+function drawBunny() {
+    // Draw another shape
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+
+    const bunny = {
+        x: 500,
+        y: 100,
+        size: 150
+    }
+
+    // Left ear
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(bunny.x + bunny.size / 2 - bunny.size / 4, bunny.y + bunny.size / 2 - bunny.size / 6,
+        bunny.size / 6, bunny.size / 3, -Math.PI / 4, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.stroke();
+
+    // Right ear
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.ellipse(bunny.x + bunny.size / 2 + bunny.size / 4, bunny.y + bunny.size / 2 - bunny.size / 6,
+        bunny.size / 6, bunny.size / 3, Math.PI / 4, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.stroke();
+
+    // Face
+    ctx.beginPath();
+    ctx.ellipse(bunny.x + bunny.size / 2, bunny.y + bunny.size / 2 + bunny.size / 6,
+        bunny.size / 3, bunny.size / 3, 0, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.stroke();
+
 }
 
 function house() {
