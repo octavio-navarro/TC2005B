@@ -42,14 +42,16 @@ class Player extends GameObject {
         if (this.position.y - this.halfSize.y < 0) {
             this.position.y = this.halfSize.y;
         // Left border
-        } if (this.position.x - this.halfSize.x < 0) {
+        }
+        if (this.position.x - this.halfSize.x < 0) {
             this.position.x = this.halfSize.x;
-
         // Bottom border
-        } if (this.position.y + this.halfSize.y > canvasHeight) {
+        }
+        if (this.position.y + this.halfSize.y > canvasHeight) {
             this.position.y = canvasHeight - this.halfSize.y;
         // Right border
-        } if (this.position.x + this.halfSize.x > canvasWidth) {
+        }
+        if (this.position.x + this.halfSize.x > canvasWidth) {
             this.position.x = canvasWidth - this.halfSize.x;
         }
     }
@@ -86,7 +88,9 @@ class Game {
 
         // Check collision against other objects
         for (let actor of this.actors) {
+            // Naive collision detection, using the distances between objects
             //if (this.player.position.minus(actor.position).magnitude() < 70) {
+            // Collision detection between the objects
             if (boxOverlap(this.player, actor)) {
                 actor.color = "yellow";
             } else {
