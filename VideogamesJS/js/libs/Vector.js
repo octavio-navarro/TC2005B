@@ -14,23 +14,23 @@ class Vector {
     }
 
     plus(other) {
-        return new Vector(0, 0);
+        return new Vector(this.x + other.x, this.y + other.y);
     }
 
     minus(other) {
-        return new Vector(0, 0);
+        return new Vector(this.x - other.x, this.y - other.y);
     }
 
     times(scalar) {
-        return new Vector(0, 0);
+        return new Vector(this.x * scalar, this.y * scalar);
     }
 
     magnitude() {
-        return 0;
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
     }
 
     squareLength() {
-        return 0;
+        return this.x ** 2 + this.y ** 2;
     }
 
     normalize() {
