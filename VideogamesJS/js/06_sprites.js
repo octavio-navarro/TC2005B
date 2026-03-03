@@ -1,5 +1,5 @@
 /*
- * Detection of collisions between boxes
+ * Using sprites to draw more interesting objects
  *
  * Gilberto Echeverria
  * 2025-03-13
@@ -18,7 +18,7 @@ let ctx;
 let game;
 
 // Variable to store the time at the previous frame
-let oldTime;
+let oldTime = 0;
 
 let playerSpeed = 0.5;
 
@@ -63,20 +63,29 @@ class Player extends GameObject {
         }
         // TODO: Normalize the velocity to avoid greater speed on diagonals
 
+        this.velocity = this.velocity.normalize().times(playerSpeed);
+
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
         this.clampWithinCanvas();
     }
 
     clampWithinCanvas() {
-        if (this.position.y < 0) {
-            this.position.y = 0;
-        } else if (this.position.y + this.height > canvasHeight) {
-            this.position.y = canvasHeight - this.height;
-        } else if (this.position.x < 0) {
-            this.position.x = 0;
-        } else if (this.position.x + this.width > canvasWidth) {
-            this.position.x = canvasWidth - this.width;
+        // Top border
+        if (this.position.y - this.halfSize.y < 0) {
+            this.position.y = this.halfSize.y;
+        // Left border
+        }
+        if (this.position.x - this.halfSize.x < 0) {
+            this.position.x = this.halfSize.x;
+        // Bottom border
+        }
+        if (this.position.y + this.halfSize.y > canvasHeight) {
+            this.position.y = canvasHeight - this.halfSize.y;
+        // Right border
+        }
+        if (this.position.x + this.halfSize.x > canvasWidth) {
+            this.position.x = canvasWidth - this.halfSize.x;
         }
     }
 }
@@ -90,7 +99,12 @@ class Game {
     }
 
     initObjects() {
+        // Add another object to draw a background
+        this.background = new GameObject(new Vector(canvasWidth / 2, canvasHeight / 2), canvasWidth, canvasHeight);
+        this.background.setSprite("../assets/sprites/trak2_plate2b.png");
+
         this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
+        this.player.setSprite("../assets/sprites/link_front.png");
 
         this.actors = [];
         for (let i=0; i<10; i++) {
@@ -99,6 +113,9 @@ class Game {
     }
 
     draw(ctx) {
+        // Draw the background first, so everything else is drawn on top
+        this.background.draw(ctx);
+
         for (let actor of this.actors) {
             actor.draw(ctx);
         }
@@ -112,9 +129,11 @@ class Game {
         // Check collision against other objects
         for (let actor of this.actors) {
             if (boxOverlap(this.player, actor)) {
-                actor.color = "yellow";
+                //actor.color = "yellow";
+                actor.setSprite("../assets/sprites/RTS_Crate_red.png")
             } else {
-                actor.color = "grey";
+                //actor.color = "grey";
+                actor.setSprite("../assets/sprites/RTS_Crate.png")
             }
         }
     }
@@ -122,11 +141,12 @@ class Game {
     addBox() {
         // TODO: Use the randomRange function to make these values different
         // Create boxes with minimum size 50, and up to 50 pixels more
-        const size = 50;
+        const size = randomRange(50, 50);
         // Define a random position for the box, within the canvas
-        const posX = 60;
-        const posY = 70;
+        const posX = randomRange(canvasWidth);
+        const posY = randomRange(canvasHeight);
         const box = new GameObject(new Vector(posX, posY), size, size, "grey");
+        box.setSprite("../assets/sprites/RTS_Crate.png")
         // Set a property to indicate if the box should be destroyed or not
         box.destroy = false;
         this.actors.push(box);
@@ -192,7 +212,7 @@ function main() {
 // Main loop function to be called once per frame
 function drawScene(newTime) {
     // Compute the time elapsed since the last frame, in milliseconds
-    let deltaTime = 1;
+    let deltaTime = newTime - oldTime;
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
