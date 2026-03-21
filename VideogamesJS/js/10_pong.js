@@ -1,8 +1,8 @@
 /*
- * Using sprites to draw more interesting objects
+ * Basic implementation of the PONG game
  *
  * Gilberto Echeverria
- * 2025-03-13
+ * 2026-03-11
  */
 
 "use strict";
@@ -20,12 +20,26 @@ let game;
 // Variable to store the time at the previous frame
 let oldTime = 0;
 
-let playerSpeed = 0.5;
+let paddleSpeed = 0.5;
+let ballSpeed = 0.5;
+
+// Class for the game ball
+class Ball extends GameObject {
+    constructor(position, width, height, color, sheetCols) {
+        super(position, width, height, color, "ball", sheetCols);
+        this.velocity = new Vector(0, 0);
+    }
+
+    update(deltaTime) {
+        this.velocity = this.velocity.normalize().times(ballSpeed);
+        this.position = this.position.plus(this.velocity.times(deltaTime));
+    }
+}
 
 // Class for the main character in the game
-class Player extends GameObject {
+class Paddle extends GameObject {
     constructor(position, width, height, color, sheetCols) {
-        super(position, width, height, color, "player", sheetCols);
+        super(position, width, height, color, "paddle", sheetCols);
         this.velocity = new Vector(0, 0);
 
         this.motion = {
@@ -33,16 +47,8 @@ class Player extends GameObject {
                 axis: "y",
                 sign: -1,
             },
-            left: {
-                axis: "x",
-                sign: -1,
-            },
             down: {
                 axis: "y",
-                sign: 1,
-            },
-            right: {
-                axis: "x",
                 sign: 1,
             },
         }
@@ -63,7 +69,7 @@ class Player extends GameObject {
         }
         // TODO: Normalize the velocity to avoid greater speed on diagonals
 
-        this.velocity = this.velocity.normalize().times(playerSpeed);
+        this.velocity = this.velocity.normalize().times(paddleSpeed);
 
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
@@ -103,11 +109,16 @@ class Game {
         this.background = new GameObject(new Vector(canvasWidth / 2, canvasHeight / 2), canvasWidth, canvasHeight);
         this.background.setSprite("../assets/sprites/trak2_plate2b.png");
 
-        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2),
-                                 48, 64, "red");
-        this.player.setSprite("../assets/sprites/blordrough_quartermaster-NESW.png",
+        this.paddleLeft = new Paddle(new Vector(50, canvasHeight / 2),
+                                 20, 200, "red");
+        this.paddleRight = new Paddle(new Vector(canvasWidth - 50, canvasHeight / 2),
+                                 20, 200, "blue");
+        //this.paddleLeft.setSprite("../assets/sprites/blordrough_quartermaster-NESW.png",
                                 //        x   y    w   h
-                                new Rect(48, 128, 48, 64));
+                                //new Rect(48, 128, 48, 64));
+
+        this.ball = new Ball(new Vector(canvasWidth / 2, canvasHeight / 2),
+                                20, 20, "white");
 
         this.actors = [];
         for (let i=0; i<10; i++) {
@@ -122,16 +133,22 @@ class Game {
         for (let actor of this.actors) {
             actor.draw(ctx);
         }
-        this.player.draw(ctx);
+        this.paddleLeft.draw(ctx);
+        this.paddleRight.draw(ctx);
+
+        this.ball.draw(ctx);
     }
 
     update(deltaTime) {
-        // Move the player
-        this.player.update(deltaTime);
+        // Move the paddleLeft
+        this.paddleLeft.update(deltaTime);
+        this.paddleRight.update(deltaTime);
+
+        this.ball.update(deltaTime);
 
         // Check collision against other objects
         for (let actor of this.actors) {
-            if (boxOverlap(this.player, actor)) {
+            if (boxOverlap(this.paddleLeft, actor)) {
                 //actor.color = "yellow";
                 actor.setSprite("../assets/sprites/RTS_Crate_red.png")
             } else {
@@ -158,38 +175,40 @@ class Game {
     createEventListeners() {
         window.addEventListener('keydown', (event) => {
             if (event.key == 'w') {
-                this.addKey('up');
-            } else if (event.key == 'a') {
-                this.addKey('left');
+                this.addKey('up', this.paddleLeft);
             } else if (event.key == 's') {
-                this.addKey('down');
-            } else if (event.key == 'd') {
-                this.addKey('right');
+                this.addKey('down', this.paddleLeft);
+            }
+            if (event.key == 'o') {
+                this.addKey('up', this.paddleRight);
+            } else if (event.key == 'l') {
+                this.addKey('down', this.paddleRight);
             }
         });
 
         window.addEventListener('keyup', (event) => {
             if (event.key == 'w') {
-                this.delKey('up');
-            } else if (event.key == 'a') {
-                this.delKey('left');
+                this.delKey('up', this.paddleLeft);
             } else if (event.key == 's') {
-                this.delKey('down');
-            } else if (event.key == 'd') {
-                this.delKey('right');
+                this.delKey('down', this.paddleLeft);
+            }
+            if (event.key == 'o') {
+                this.delKey('up', this.paddleRight);
+            } else if (event.key == 'l') {
+                this.delKey('down', this.paddleRight);
             }
         });
     }
 
-    addKey(direction) {
-        if (!this.player.keys.includes(direction)) {
-            this.player.keys.push(direction);
+    addKey(direction, paddle) {
+        if (!paddle.keys.includes(direction)) {
+            paddle.keys.push(direction);
         }
     }
 
-    delKey(direction) {
-        if (this.player.keys.includes(direction)) {
-            this.player.keys.splice(this.player.keys.indexOf(direction), 1);
+    delKey(direction, paddle) {
+        if (paddle.keys.includes(direction)) {
+            paddle.keys.splice(paddle.keys.indexOf(direction), 1);
         }
     }
 }
