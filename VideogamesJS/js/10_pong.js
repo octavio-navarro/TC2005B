@@ -34,6 +34,24 @@ class Ball extends GameObject {
         this.velocity = this.velocity.normalize().times(ballSpeed);
         this.position = this.position.plus(this.velocity.times(deltaTime));
     }
+
+    reset() {
+        this.position = new Vector(canvasWidth / 2, canvasHeight / 2);
+        this.velocity = new Vector(0, 0);
+    }
+
+    serve() {
+        // Get a random angle
+        let angle = Math.random() * Math.PI / 2 - (Math.PI / 4);
+        // Convert the angle into a cartesian vector
+        this.velocity.x = Math.cos(angle);
+        this.velocity.y = Math.sin(angle);
+
+        // Choose a random direction
+        if (Math.random() > 0.5) {
+            this.velocity.x *= -1;
+        }
+    }
 }
 
 // Class for the main character in the game
@@ -102,6 +120,10 @@ class Game {
     constructor() {
         this.createEventListeners();
         this.initObjects();
+
+        // Variables to keep score of the game
+        this.pointsRight = 0;
+        this.pointsLeft = 0;
     }
 
     initObjects() {
@@ -120,21 +142,35 @@ class Game {
         this.ball = new Ball(new Vector(canvasWidth / 2, canvasHeight / 2),
                                 20, 20, "white");
 
-        this.actors = [];
-        for (let i=0; i<10; i++) {
-            this.addBox();
-        }
+        this.barrierTop = new GameObject(new Vector(canvasWidth / 2, 0), canvasWidth, 20);
+        this.barrierTop.setSprite("../assets/sprites/RTS_Crate.png")
+        this.barrierBottom = new GameObject(new Vector(canvasWidth / 2, canvasHeight), canvasWidth, 20);
+        this.barrierBottom.setSprite("../assets/sprites/RTS_Crate.png")
+
+        this.goalLeft = new GameObject(new Vector(0, canvasHeight / 2), 20, canvasHeight, "green");
+        this.goalRight = new GameObject(new Vector(canvasWidth, canvasHeight / 2), 20, canvasHeight, "green");
+
+        // Labels to show the score of each player
+        this.pointsTextLeft = new TextLabel(canvasWidth / 4, 80, "40px Ubuntu Mono", "white");
+        this.pointsTextRight = new TextLabel(canvasWidth / 4 * 3, 80, "40px Ubuntu Mono", "white");
+
     }
 
     draw(ctx) {
         // Draw the background first, so everything else is drawn on top
         this.background.draw(ctx);
 
-        for (let actor of this.actors) {
-            actor.draw(ctx);
-        }
         this.paddleLeft.draw(ctx);
         this.paddleRight.draw(ctx);
+
+        this.barrierTop.draw(ctx);
+        this.barrierBottom.draw(ctx);
+
+        this.goalLeft.draw(ctx);
+        this.goalRight.draw(ctx);
+
+        this.pointsTextLeft.draw(ctx, this.pointsLeft);
+        this.pointsTextRight.draw(ctx, this.pointsRight);
 
         this.ball.draw(ctx);
     }
@@ -146,6 +182,30 @@ class Game {
 
         this.ball.update(deltaTime);
 
+        if (boxOverlap(this.ball, this.barrierTop) || boxOverlap(this.ball, this.barrierBottom)) {
+            console.log("Ping");
+            this.ball.velocity.y *= -1;
+            // Make the ball faster with every contact
+            this.ball.velocity.times(1.1);
+        }
+        if (boxOverlap(this.ball, this.paddleLeft) || boxOverlap(this.ball, this.paddleRight)) {
+            this.ball.velocity.x *= -1;
+            console.log("Pong");
+            // Make the ball faster with every contact
+            this.ball.velocity.times(1.1);
+        }
+
+        // Detect when a player scores a point
+        if (boxOverlap(this.ball, this.goalLeft)) {
+            this.pointsRight += 1;
+            this.ball.reset();
+        }
+        if (boxOverlap(this.ball, this.goalRight)) {
+            this.pointsLeft += 1;
+            this.ball.reset();
+        }
+
+        /*
         // Check collision against other objects
         for (let actor of this.actors) {
             if (boxOverlap(this.paddleLeft, actor)) {
@@ -156,6 +216,7 @@ class Game {
                 actor.setSprite("../assets/sprites/RTS_Crate.png")
             }
         }
+        */
     }
 
     addBox() {
@@ -169,7 +230,7 @@ class Game {
         box.setSprite("../assets/sprites/RTS_Crate.png")
         // Set a property to indicate if the box should be destroyed or not
         box.destroy = false;
-        this.actors.push(box);
+        //this.actors.push(box);
     }
 
     createEventListeners() {
@@ -183,6 +244,11 @@ class Game {
                 this.addKey('up', this.paddleRight);
             } else if (event.key == 'l') {
                 this.addKey('down', this.paddleRight);
+            }
+
+            // Add a key for the initial serve of the ball
+            if (event.code == 'Space') {
+                this.ball.serve();
             }
         });
 
