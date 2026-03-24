@@ -121,6 +121,10 @@ class Game {
         this.createEventListeners();
         this.initObjects();
 
+        // Add audio element
+        this.ping = document.createElement("audio");
+        this.ping.src = "../assets/audio/4387__noisecollector__pongblipe4.wav";
+
         // Variables to keep score of the game
         this.pointsRight = 0;
         this.pointsLeft = 0;
@@ -183,16 +187,18 @@ class Game {
         this.ball.update(deltaTime);
 
         if (boxOverlap(this.ball, this.barrierTop) || boxOverlap(this.ball, this.barrierBottom)) {
-            console.log("Ping");
             this.ball.velocity.y *= -1;
             // Make the ball faster with every contact
             this.ball.velocity.times(1.1);
+            // Play the sound
+            this.ping.play();
         }
         if (boxOverlap(this.ball, this.paddleLeft) || boxOverlap(this.ball, this.paddleRight)) {
             this.ball.velocity.x *= -1;
-            console.log("Pong");
             // Make the ball faster with every contact
             this.ball.velocity.times(1.1);
+            // Play the sound
+            this.ping.play();
         }
 
         // Detect when a player scores a point
