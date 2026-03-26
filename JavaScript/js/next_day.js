@@ -28,7 +28,8 @@ function monthDays(month, year) {
         }
         */
         return isLeap(year) ? 29 : 28;
-    } else if (month in [4, 6, 9, 11]) {
+    // Use the includes method of an array to test it the month has 30 days
+    } else if ([4, 6, 9, 11].includes(month)) {
         return 30;
     } else {
         return 31;
