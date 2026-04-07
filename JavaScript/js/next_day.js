@@ -37,7 +37,14 @@ function monthDays(month, year) {
 }
 
 function nextDay(day, month, year) {
-    return [1, 1, 2000];
+    if (day === monthDays(month, year)) {
+        if (month === 12) {
+            return [1, 1, year + 1];
+        } else {
+            return [1, month + 1, year];
+        }
+    }
+    return [day + 1, month, year];
 }
 
 export { isLeap, monthDays, nextDay };

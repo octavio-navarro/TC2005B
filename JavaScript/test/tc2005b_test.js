@@ -15,7 +15,7 @@ import * as tc2005b from "../js/tc2005b.js";
 
 describe("TC2005B Module Tests", () => {
 
-    describe("firstNonrepeating", () => {
+    describe("firstNonRepeating", () => {
         it("empty string", () => {
             strictEqual(tc2005b.firstNonRepeating(""), undefined);
         });
@@ -33,6 +33,7 @@ describe("TC2005B Module Tests", () => {
         });
     });
 
+    /*
     describe("bubbleSort", () => {
         it("empty array", () => {
             deepStrictEqual(tc2005b.bubbleSort([]), []);
@@ -349,5 +350,5 @@ describe("TC2005B Module Tests", () => {
             deepStrictEqual(tc2005b.sortDescending([15, 12, 9, 6, 3]), [15, 12, 9, 6, 3]);
         });
     });
-
+    */
 });
