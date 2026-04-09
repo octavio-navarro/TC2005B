@@ -1,6 +1,10 @@
 /*
  * Detection of collisions between boxes
- * Uses classes for the templates of objects used in the game
+ * Uses external files with classes for the templates of objects used in the game
+ * - Rect
+ * - Vector
+ * - GameObject
+ *
  *
  * Gilberto Echeverria
  * 2025-03-13
