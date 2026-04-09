@@ -57,6 +57,8 @@ function drawScene() {
     angle += 0.1;
     // TODO: Use mathematical functions to set the actual position of the object
 
+    // TODO: Make the speed of the motion consistent on all computers
+
     requestAnimationFrame(drawScene);
 }
 

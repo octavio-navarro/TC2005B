@@ -1,5 +1,6 @@
 /*
  * Detection of collisions between boxes
+ * Uses classes for the templates of objects used in the game
  *
  * Gilberto Echeverria
  * 2025-03-13
@@ -35,6 +36,7 @@ class Player extends GameObject {
         this.clampWithinCanvas();
     }
 
+    // TODO: Does this work correctly?
     clampWithinCanvas() {
         if (this.position.y < 0) {
             this.position.y = 0;
