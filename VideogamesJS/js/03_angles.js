@@ -42,7 +42,7 @@ function main() {
 function drawScene(newTime) {
     // Compute the time elapsed since last frame
     let deltaTime = newTime - oldTime;
-    console.log(deltaTime);
+    //console.log(deltaTime);
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -68,13 +68,9 @@ function drawScene(newTime) {
     box.x = radius * Math.cos(angle);
     box.y = radius * Math.sin(angle);
 
-<<<<<<< HEAD
     // Update the previous time
-    oldTime = newTime;
-=======
     // TODO: Make the speed of the motion consistent on all computers
-
->>>>>>> main
+    oldTime = newTime;
     requestAnimationFrame(drawScene);
 }
 
