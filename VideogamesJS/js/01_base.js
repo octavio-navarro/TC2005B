@@ -31,13 +31,13 @@ function main() {
 function draw() {
     // Draw a square
     ctx.fillStyle = "red";
-    ctx.fillRect(canvasWidth / 2, canvasHeight / 2, boxSize, boxSize);
+    ctx.fillRect(canvasWidth / 2, 500, boxSize, boxSize);
 
     // Draw an ellipse
     ctx.beginPath();
     ctx.fillStyle = "yellow";
     ctx.strokeStyle = "green";
-    ctx.ellipse(400, 300, 60, 30, Math.PI/4, 0, Math.PI * 2, false);
+    ctx.ellipse(400, 300, 120, 30, Math.PI/4, 0, Math.PI * 2, false);
     ctx.fill();
     ctx.stroke();
 
@@ -45,7 +45,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "black";
-    ctx.ellipse(100, 400, 30, 30, 0, 0, Math.PI * 1.5, false);
+    ctx.arc(100, 400, 30, 0, Math.PI * 1.5);
     ctx.fill();
     ctx.stroke();
 

@@ -68,8 +68,13 @@ function drawScene(newTime) {
     box.x = radius * Math.cos(angle);
     box.y = radius * Math.sin(angle);
 
+<<<<<<< HEAD
     // Update the previous time
     oldTime = newTime;
+=======
+    // TODO: Make the speed of the motion consistent on all computers
+
+>>>>>>> main
     requestAnimationFrame(drawScene);
 }
 

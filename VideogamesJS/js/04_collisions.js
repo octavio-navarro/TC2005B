@@ -1,5 +1,10 @@
 /*
  * Detection of collisions between boxes
+ * Uses external files with classes for the templates of objects used in the game
+ * - Rect
+ * - Vector
+ * - GameObject
+ *
  *
  * Gilberto Echeverria
  * 2025-03-13
@@ -20,7 +25,7 @@ let game;
 // Variable to store the time at the previous frame
 let oldTime;
 
-let playerSpeed = 0.5;
+let playerSpeed = 3.5;
 
 // Class for the main character in the game
 class Player extends GameObject {
@@ -30,11 +35,14 @@ class Player extends GameObject {
     }
 
     update(deltaTime) {
+        // Normalize the speed, to avoid moving faster in diagonal
+        this.velocity = this.velocity.normalize().times(playerSpeed);
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
         this.clampWithinCanvas();
     }
 
+    // TODO: Does this work correctly?
     clampWithinCanvas() {
         if (this.position.y < 0) {
             this.position.y = 0;
