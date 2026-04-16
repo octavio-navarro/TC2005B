@@ -84,9 +84,12 @@ class Game {
     update(deltaTime) {
         // Move the player
         this.player.update(deltaTime);
+        this.player.updateCollider();
 
         // Check collision against other objects
         for (let actor of this.actors) {
+            //if (this.player.position.minus(actor.position).squareLength()
+            //    <= ((this.player.size.x + actor.size.x) / 2) ** 2) {
             if (boxOverlap(this.player, actor)) {
                 actor.color = "yellow";
             } else {

@@ -20,10 +20,19 @@
 function boxOverlap(obj1, obj2) {
     // Declare legible names for the borders
     // TODO: define variables
+    const L1 = obj1.collider.x;
+    const R1 = obj1.collider.x + obj1.collider.width;
+    const T1 = obj1.collider.y;
+    const B1 = obj1.collider.y + obj1.collider.height;
+
+    const L2 = obj2.collider.x;
+    const R2 = obj2.collider.x + obj2.collider.width;
+    const T2 = obj2.collider.y;
+    const B2 = obj2.collider.y + obj2.collider.height;
 
     // Compare the values to determine if the boxes overlap
     // TODO: use the correct condition
-    return false;
+    return L1 <= R2 && L2 <= R1 && T1 <= B2 && T2 <= B1;
 }
 
 /*
