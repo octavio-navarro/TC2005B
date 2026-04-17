@@ -20,12 +20,27 @@ let game;
 // Variable to store the time at the previous frame
 let oldTime;
 
-let paddleSpeed = 0.5;
+let ballSpeed = 1;
+let paddleSpeed = 5;
+
+// Class for the ball in the game
+class Ball extends GameObject {
+    constructor(position, width, height, color, sheetCols) {
+        super(position, width, height, color, "ball", sheetCols);
+        this.velocity = new Vector(1, 0);
+    }
+
+    update(deltaTime) {
+        this.velocity = this.velocity.normalize().times(ballSpeed);
+        this.position = this.position.plus(this.velocity.times(deltaTime));
+        this.updateCollider();
+    }
+}
 
 // Class for the main character in the game
 class Paddle extends GameObject {
     constructor(position, width, height, color, sheetCols) {
-        super(position, width, height, color, "player", sheetCols);
+        super(position, width, height, color, "paddle", sheetCols);
         this.velocity = new Vector(0, 0);
 
         // Structure with the directions the object can move
@@ -55,10 +70,13 @@ class Paddle extends GameObject {
             this.velocity[axis] += sign;
         }
         // TODO: Normalize the velocity to avoid greater speed on diagonals
+        this.velocity = this.velocity.normalize().times(paddleSpeed);
 
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
         this.clampWithinCanvas();
+
+        this.updateCollider();
     }
 
     clampWithinCanvas() {
@@ -84,35 +102,44 @@ class Game {
 
     // Create the objects in the game
     initObjects() {
+        // The player controlled paddles
         this.paddleLeft = new Paddle(new Vector(50, canvasHeight / 2), 40, 100, "red");
         this.paddleRight = new Paddle(new Vector(canvasWidth - 50, canvasHeight / 2), 40, 100, "blue");
+        // The ball
+        this.ball = new Ball(new Vector(canvasWidth / 2, canvasHeight / 2), 20, 20, "black");
+        // The walls at the top and bottom
 
-        this.actors = [];
+        // The goals on either side
+
+        this.actors = [
+            this.paddleLeft,
+            this.paddleRight,
+            this.ball
+        ];
     }
 
     draw(ctx) {
         for (let actor of this.actors) {
             actor.draw(ctx);
         }
-        this.paddleLeft.draw(ctx);
-        this.paddleRight.draw(ctx);
     }
 
     update(deltaTime) {
         // Move the paddles
         this.paddleLeft.update(deltaTime);
         this.paddleRight.update(deltaTime);
+        // Move the ball
+        this.ball.update(deltaTime);
 
-        // Check collision against other objects
-        for (let actor of this.actors) {
-            /*
-            if (boxOverlap(this.paddleLeft, actor)) {
-                actor.color = "yellow";
-            } else {
-                actor.color = "grey";
-            }
-            */
+        // Detect collisions with the paddles
+        if (boxOverlap(this.paddleLeft, this.ball)
+            || boxOverlap(this.paddleRight, this.ball)) {
+            this.ball.velocity.x *= -1;
         }
+        // Detect collisions with the walls
+
+        // Detect collisions with the goals
+
     }
 
     createEventListeners() {
