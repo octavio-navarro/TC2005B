@@ -20,20 +20,41 @@ let game;
 // Variable to store the time at the previous frame
 let oldTime;
 
-let ballSpeed = 1;
+// Global variables for the settings of the game
+let ballSpeed = 3;
 let paddleSpeed = 5;
 
 // Class for the ball in the game
 class Ball extends GameObject {
     constructor(position, width, height, color, sheetCols) {
         super(position, width, height, color, "ball", sheetCols);
-        this.velocity = new Vector(1, 0);
+        this.velocity = new Vector(0, 0);
     }
 
     update(deltaTime) {
-        this.velocity = this.velocity.normalize().times(ballSpeed);
         this.position = this.position.plus(this.velocity.times(deltaTime));
         this.updateCollider();
+    }
+
+    // Move the ball to the center, and stop its motion
+    reset() {
+        this.position.x = canvasWidth / 2;
+        this.position.y = canvasHeight / 2;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+    }
+
+    // Start the ball motion
+    serve() {
+        // Get a random angle between -PI/2 and PI/2
+        let angle = Math.random() * Math.PI / 2 - Math.PI / 4;
+        // Conver the angle into a vector, and scale it by the speed
+        this.velocity = new Vector(Math.cos(angle), Math.sin(angle)).times(ballSpeed);
+
+        // Select a random direction
+        if (Math.random() > 0.5) {
+            this.velocity.x *= -1;
+        }
     }
 }
 
@@ -69,7 +90,7 @@ class Paddle extends GameObject {
             const sign = this.motion[direction].sign;
             this.velocity[axis] += sign;
         }
-        // TODO: Normalize the velocity to avoid greater speed on diagonals
+        // Normalize the velocity to avoid greater speed on diagonals
         this.velocity = this.velocity.normalize().times(paddleSpeed);
 
         this.position = this.position.plus(this.velocity.times(deltaTime));
@@ -80,14 +101,13 @@ class Paddle extends GameObject {
     }
 
     clampWithinCanvas() {
-        if (this.position.y < 0) {
-            this.position.y = 0;
-        } else if (this.position.y + this.height > canvasHeight) {
-            this.position.y = canvasHeight - this.height;
-        } else if (this.position.x < 0) {
-            this.position.x = 0;
-        } else if (this.position.x + this.width > canvasWidth) {
-            this.position.x = canvasWidth - this.width;
+        // Top border
+        if (this.position.y - this.halfSize.y < 0) {
+            this.position.y = this.halfSize.y;
+        }
+        // Bottom border
+        if (this.position.y + this.halfSize.y > canvasHeight) {
+            this.position.y = canvasHeight - this.halfSize.y;
         }
     }
 }
@@ -98,20 +118,35 @@ class Game {
     constructor() {
         this.createEventListeners();
         this.initObjects();
+
+        // Variables for the points of each player
+        this.scoreLeft = 0;
+        this.scoreRight = 0;
+
+        // Boolean to detect if the game is already in play
+        this.inPlay = false;
     }
 
     // Create the objects in the game
     initObjects() {
         // The player controlled paddles
-        this.paddleLeft = new Paddle(new Vector(50, canvasHeight / 2), 40, 100, "red");
-        this.paddleRight = new Paddle(new Vector(canvasWidth - 50, canvasHeight / 2), 40, 100, "blue");
+        this.paddleLeft = new Paddle(new Vector(50, canvasHeight / 2), 20, 100, "red");
+        this.paddleRight = new Paddle(new Vector(canvasWidth - 50, canvasHeight / 2), 20, 100, "blue");
         // The ball
         this.ball = new Ball(new Vector(canvasWidth / 2, canvasHeight / 2), 20, 20, "black");
         // The walls at the top and bottom
+        this.wallTop = new Paddle(new Vector(canvasWidth / 2, 0), canvasWidth, 20, "yellow");
+        this.wallBottom = new Paddle(new Vector(canvasWidth / 2, canvasHeight), canvasWidth, 20, "yellow");
 
         // The goals on either side
+        this.goalLeft = new Paddle(new Vector(0, canvasHeight / 2), 20, canvasHeight, "green");
+        this.goalRight = new Paddle(new Vector(canvasWidth, canvasHeight / 2), 20, canvasHeight, "green");
 
         this.actors = [
+            this.goalLeft,
+            this.goalRight,
+            this.wallTop,
+            this.wallBottom,
             this.paddleLeft,
             this.paddleRight,
             this.ball
@@ -137,9 +172,21 @@ class Game {
             this.ball.velocity.x *= -1;
         }
         // Detect collisions with the walls
-
+        if (boxOverlap(this.wallTop, this.ball)
+            || boxOverlap(this.wallBottom, this.ball)) {
+            this.ball.velocity.y *= -1;
+        }
         // Detect collisions with the goals
-
+        if (boxOverlap(this.goalLeft, this.ball)) {
+            this.scoreRight += 1;
+            this.ball.reset();
+            this.inPlay = false;
+        }
+        if (boxOverlap(this.goalRight, this.ball)) {
+            this.scoreLeft += 1;
+            this.ball.reset();
+            this.inPlay = false;
+        }
     }
 
     createEventListeners() {
@@ -152,6 +199,15 @@ class Game {
                 this.addKey('up', this.paddleRight);
             } if (event.key == 'ArrowDown') {
                 this.addKey('down', this.paddleRight);
+            }
+
+            // Get the ball in play
+            if (event.key == ' ') {
+                // Only if it is not alreay moving
+                if (!this.inPlay) {
+                    this.ball.serve();
+                    this.inPlay = true;
+                }
             }
         });
 
