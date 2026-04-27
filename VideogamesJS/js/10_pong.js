@@ -18,11 +18,13 @@ let ctx;
 let game;
 
 // Variable to store the time at the previous frame
-let oldTime;
+let oldTime = 0;
 
 // Global variables for the settings of the game
-let ballSpeed = 3;
-let paddleSpeed = 5;
+let initialSpeed = 0.5;
+let ballSpeed = 0.5;
+let paddleSpeed = 0.5;
+let speedIncrease = 1.05;
 
 // Class for the ball in the game
 class Ball extends GameObject {
@@ -32,7 +34,7 @@ class Ball extends GameObject {
     }
 
     update(deltaTime) {
-        this.position = this.position.plus(this.velocity.times(deltaTime));
+        this.position = this.position.plus(this.velocity.times(ballSpeed).times(deltaTime));
         this.updateCollider();
     }
 
@@ -49,7 +51,8 @@ class Ball extends GameObject {
         // Get a random angle between -PI/2 and PI/2
         let angle = Math.random() * Math.PI / 2 - Math.PI / 4;
         // Conver the angle into a vector, and scale it by the speed
-        this.velocity = new Vector(Math.cos(angle), Math.sin(angle)).times(ballSpeed);
+        this.velocity = new Vector(Math.cos(angle), Math.sin(angle));
+        ballSpeed = initialSpeed;
 
         // Select a random direction
         if (Math.random() > 0.5) {
@@ -123,8 +126,19 @@ class Game {
         this.scoreLeft = 0;
         this.scoreRight = 0;
 
+        // TextLabels to display scores in the game
+        this.scoreLabelLeft = new TextLabel(canvasWidth / 4, 100,
+                "40px Arial", "red");
+        this.scoreLabelRight = new TextLabel(canvasWidth / 4 * 3, 100,
+                "40px Arial", "blue");
+        this.timeLabel = new TextLabel(canvasWidth / 2 - 50, 100,
+                "40px Arial", "yellow");
+
         // Boolean to detect if the game is already in play
         this.inPlay = false;
+
+        // Time limit for the game, in milliseconds
+        this.timeRemaining = 90000;
     }
 
     // Create the objects in the game
@@ -154,12 +168,31 @@ class Game {
     }
 
     draw(ctx) {
+        this.scoreLabelLeft.draw(ctx, this.scoreLeft);
+        this.scoreLabelRight.draw(ctx, this.scoreRight);
+
+        let mins = Math.floor(this.timeRemaining / 1000 / 60);
+        let secs = Math.floor(this.timeRemaining / 1000 % 60);
+        this.timeLabel.draw(ctx, `${mins} : ${secs}`);
+
+        //console.log(this.timeRemaining);
+        //console.log(mins);
+        //console.log(secs);
+
         for (let actor of this.actors) {
             actor.draw(ctx);
         }
     }
 
     update(deltaTime) {
+        if (this.inPlay) {
+            this.timeRemaining -= deltaTime;
+            if (this.timeRemaining <= 0) {
+                this.timeRemaining = 0;
+                return;
+            }
+        }
+
         // Move the paddles
         this.paddleLeft.update(deltaTime);
         this.paddleRight.update(deltaTime);
@@ -170,11 +203,15 @@ class Game {
         if (boxOverlap(this.paddleLeft, this.ball)
             || boxOverlap(this.paddleRight, this.ball)) {
             this.ball.velocity.x *= -1;
+            // Incremente the speed of the ball
+            ballSpeed *= speedIncrease;
         }
         // Detect collisions with the walls
         if (boxOverlap(this.wallTop, this.ball)
             || boxOverlap(this.wallBottom, this.ball)) {
             this.ball.velocity.y *= -1;
+            // Incremente the speed of the ball
+            ballSpeed *= speedIncrease;
         }
         // Detect collisions with the goals
         if (boxOverlap(this.goalLeft, this.ball)) {
@@ -195,9 +232,9 @@ class Game {
                 this.addKey('up', this.paddleLeft);
             } if (event.key == 's') {
                 this.addKey('down', this.paddleLeft);
-            } if (event.key == 'ArrowUp') {
+            } if (event.key == 'o') {
                 this.addKey('up', this.paddleRight);
-            } if (event.key == 'ArrowDown') {
+            } if (event.key == 'l') {
                 this.addKey('down', this.paddleRight);
             }
 
@@ -216,9 +253,9 @@ class Game {
                 this.delKey('up', this.paddleLeft);
             } if (event.key == 's') {
                 this.delKey('down', this.paddleLeft);
-            } if (event.key == 'ArrowUp') {
+            } if (event.key == 'o') {
                 this.delKey('up', this.paddleRight);
-            } if (event.key == 'ArrowDown') {
+            } if (event.key == 'l') {
                 this.delKey('down', this.paddleRight);
             }
         });
@@ -260,7 +297,7 @@ function main() {
 // Main loop function to be called once per frame
 function drawScene(newTime) {
     // Compute the time elapsed since the last frame, in milliseconds
-    let deltaTime = 1;
+    let deltaTime = newTime - oldTime;
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
