@@ -90,7 +90,10 @@ class Game {
     }
 
     initObjects() {
-        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
+        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 100, "red");
+        // Set the sprite for the player object
+        this.player.setSprite("../assets/sprites/blordrough_quartermaster-NESW.png",
+            new Rect(48, 128, 48, 64));
 
         this.actors = [];
         for (let i=0; i<10; i++) {
@@ -122,11 +125,12 @@ class Game {
     addBox() {
         // TODO: Use the randomRange function to make these values different
         // Create boxes with minimum size 50, and up to 50 pixels more
-        const size = 50;
+        const size = randomRange(100, 50);
         // Define a random position for the box, within the canvas
-        const posX = 60;
-        const posY = 70;
+        const posX = randomRange(canvasWidth);
+        const posY = randomRange(canvasHeight);
         const box = new GameObject(new Vector(posX, posY), size, size, "grey");
+        box.setSprite("../assets/sprites/murek zniszczalny/Animacja/00.png");
         // Set a property to indicate if the box should be destroyed or not
         box.destroy = false;
         this.actors.push(box);
