@@ -130,7 +130,7 @@ class Game {
         const posX = randomRange(canvasWidth);
         const posY = randomRange(canvasHeight);
         const box = new GameObject(new Vector(posX, posY), size, size, "grey");
-        box.setSprite("../assets/sprites/murek zniszczalny/Animacja/00.png");
+        box.setSprite("../assets/sprites/box_animation/00.png");
         // Set a property to indicate if the box should be destroyed or not
         box.destroy = false;
         this.actors.push(box);
