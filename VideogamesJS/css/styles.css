@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: White;
+    background-color: #444455;
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;
@@ -47,7 +47,7 @@ canvas {
 }
 
 #canvas {
-    background-color: #87ceeb;
+    background-color: #6688aa;
     grid-area: main;
 }
 
