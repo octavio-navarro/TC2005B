@@ -52,12 +52,12 @@ class AnimatedObject extends GameObject {
             // Loop around the animation frames if the animation is set to repeat
             // Otherwise stay on the last frame
             // TODO: Set the frame to be used when the frame range ends
-            let restartFrame = this.minFrame;
+            let restartFrame = this.repeat ? this.minFrame : this.maxFrame;
             // TODO: Change the frame to the next one
-            this.frame = this.frame;
+            this.frame = this.frame == this.maxFrame ? restartFrame : this.frame + 1;
             // TODO: Determine the top left corner of the frame to draw from the spritesheet
-            this.spriteRect.x = 0;
-            this.spriteRect.y = 0;
+            this.spriteRect.x = this.frame % this.sheetCols * this.spriteRect.width;
+            this.spriteRect.y = Math.floor(this.frame / this.sheetCols) * this.spriteRect.height;
             // Restart the time count
             this.totalTime = 0;
             //console.log(`New Rect:`)

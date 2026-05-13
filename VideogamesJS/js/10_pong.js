@@ -122,6 +122,12 @@ class Game {
         this.createEventListeners();
         this.initObjects();
 
+        // Initialize sound elements
+        this.ping = document.createElement("audio");
+        this.ping.src = "../assets/audio/4387__noisecollector__pongblipe4.wav";
+        // Make the sound repeat when it finishes. Good for background music
+        //this.ping.loop = true;
+
         // Variables for the points of each player
         this.scoreLeft = 0;
         this.scoreRight = 0;
@@ -205,6 +211,7 @@ class Game {
             this.ball.velocity.x *= -1;
             // Incremente the speed of the ball
             ballSpeed *= speedIncrease;
+            this.ping.play();
         }
         // Detect collisions with the walls
         if (boxOverlap(this.wallTop, this.ball)
@@ -212,6 +219,7 @@ class Game {
             this.ball.velocity.y *= -1;
             // Incremente the speed of the ball
             ballSpeed *= speedIncrease;
+            this.ping.play();
         }
         // Detect collisions with the goals
         if (boxOverlap(this.goalLeft, this.ball)) {

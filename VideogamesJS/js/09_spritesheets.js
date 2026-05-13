@@ -104,7 +104,7 @@ class Game {
                                     new Rect(0, 0, 16, 16));
 
         // TODO: Call the function to run the animation of the object
-        //this.background.setAnimation(0, 44, true, 100);
+        this.background.setAnimation(0, 44, true, 100);
 
         this.player = new AnimatedPlayer(
             new Vector(canvasWidth / 2, canvasHeight / 2),
@@ -172,7 +172,7 @@ class Game {
         box.setSprite('../assets/sprites/artifact_ss.png',
                               new Rect(64, 0, 64, 64));
         // TODO: Call the function to run the animation of the object
-        //
+        box.setAnimation(1, 5, true, 50);
         box.destroy = false;
         this.actors.push(box);
     }

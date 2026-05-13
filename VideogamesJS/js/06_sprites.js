@@ -1,5 +1,7 @@
 /*
  * Detection of collisions between boxes
+ * Using simple sprites to draw the objects
+ * Basic animation
  *
  * Gilberto Echeverria
  * 2025-03-13
@@ -18,9 +20,12 @@ let ctx;
 let game;
 
 // Variable to store the time at the previous frame
-let oldTime;
+let oldTime = 0;
 
 let playerSpeed = 0.5;
+
+let animationTime = 0;
+let rectX = 0;
 
 // Class for the main character in the game
 class Player extends GameObject {
@@ -62,6 +67,7 @@ class Player extends GameObject {
             this.velocity[axis] += sign;
         }
         // TODO: Normalize the velocity to avoid greater speed on diagonals
+        this.velocity = this.velocity.normalize().times(playerSpeed);
 
         this.position = this.position.plus(this.velocity.times(deltaTime));
 
@@ -90,10 +96,10 @@ class Game {
     }
 
     initObjects() {
-        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 100, "red");
+        this.player = new Player(new Vector(canvasWidth / 2, canvasHeight / 2), 60, 60, "red");
         // Set the sprite for the player object
-        this.player.setSprite("../assets/sprites/blordrough_quartermaster-NESW.png",
-            new Rect(48, 128, 48, 64));
+        this.player.setSprite("../assets/sprites/link_sprite_sheet.png",
+            new Rect(0, 130 * 5, 120, 130));
 
         this.actors = [];
         for (let i=0; i<10; i++) {
@@ -109,6 +115,17 @@ class Game {
     }
 
     update(deltaTime) {
+        // Very simple animation for the character
+        animationTime += deltaTime;
+        if (animationTime > 500) {
+            this.player.spriteRect.x += this.player.spriteRect.width;
+            if (this.player.spriteRect.x >= 1200) {
+                this.player.spriteRect.x = 0;
+            }
+            animationTime = 0;
+        }
+
+
         // Move the player
         this.player.update(deltaTime);
 
@@ -196,7 +213,7 @@ function main() {
 // Main loop function to be called once per frame
 function drawScene(newTime) {
     // Compute the time elapsed since the last frame, in milliseconds
-    let deltaTime = 1;
+    let deltaTime = newTime - oldTime;
 
     // Clean the canvas so we can draw everything again
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
